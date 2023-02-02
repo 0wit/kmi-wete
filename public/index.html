@@ -5,33 +5,10 @@
     <title>Jan Outrata – Domovská stránka</title>
     <link rel="stylesheet" href="../src/css/styles.css" />
     <link rel="stylesheet" href="../src/css/bootstrap.min.css" />
-    <script>
-      function toggleHideElems(elems, display) {
-        var i;
-        for (i = 0; i < elems.length; ++i) {
-          if (elems[i].style.display != display) {
-            elems[i].style.display = display;
-          } else {
-            elems[i].style.display = "none";
-          }
-        }
-        return false;
-      }
-    </script>
-    <style>
-      div.left {
-        float: left;
-        width: 250px;
-        margin: 0px 20px 20px 0px;
-      }
-      #photo {
-        width: 100%;
-        margin-bottom: 20px;
-      }
-    </style>
+    <link rel="icon" type="image/x-icon" href="../src/img/favicon.ico">
   </head>
   <body class="container mt-5">
-    <header>
+    <header class="sticky-top bg-white">
       <h1 class="mb-3" href="#">Jan Outrata</h1>
       <nav>
         <ul class="nav nav-tabs nav-pills nav-fill">
@@ -51,12 +28,11 @@
       </nav>
     </header>
     <main class="mt-3" role="main">
-      <div class="left">
+      <div class="float-left w-25 mr-3">
         <img
-          id="photo"
-          src="../src/photo.jpg"
+          src="../src/img/photo.jpg"
           alt="Jan Outrata (foto)"
-          class="img-thumbnail"
+          class="img-thumbnail w-100 mb-3"
           title="Jan Outrata"
         />
         <address>
@@ -221,39 +197,38 @@
         </ul>
       </div>
     </main>
-    <footer>
-      <div> </div>
-      <div id="icons">
+    <footer class="clearfix border border-left-0 border-right-0 border-bottom-0 border-secondary mt-5 pt-3 mb-3">
+      <div class="text-right">
         <a href="http://www.gnu.org/software/emacs/">
           <img
             alt="Made with Emacs"
             title="Made with Emacs"
-            src="./gnu_emacs_icon_grey.png"
+            src="../src/img/gnu_emacs_icon_grey.png"
           />
         </a>
         <a href="http://www.linux.cz">
           <img
             alt="Made on Linux"
             title="Made on Linux"
-            src="./made_on_linux.png"
+            src="../src/img/made_on_linux.png"
           />
         </a>
         <a href="http://www.dafont.com/bohemian-typewriter.font">
           <img
             alt="Using Bohemian Typerwiter font"
             title="Using Bohemian Typerwiter font"
-            src="./Remagg.jpg"
+            src="../src/img/Remagg.jpg"
           />
         </a>
         <a href="http://www.fsf.org/fb">
           <img
             alt="Not f'd — you won't find me on Facebook"
             title="Not f'd — you won't find me on Facebook"
-            src="./no-facebook-me.png"
+            src="../src/img/no-facebook-me.png"
           />
         </a>
       </div>
-      <div id="copyright">
+      <div class="text-right align-top">
         Copyright © <a href="http://outrata.inf.upol.cz">Jan Outrata</a>
       </div>
     </footer>
