@@ -1,0 +1,16 @@
+{
+  "name": "sass-grid-system",
+  "version": "1.0.0",
+  "description": "Grid system made using sass.",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "node-sass --include-path scss src/scss/styles.scss   src/css/styles.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+  },
+  "author": "Steven",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^8.0.0",
+    "nodemon": "^2.0.20"
+  }
+}
