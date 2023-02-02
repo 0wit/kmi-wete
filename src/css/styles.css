@@ -1,0 +1,19 @@
+#lang { float: right; }
+#menu { width: 100%; display: table; text-align: center; margin: 0px 0px 30px 0px; padding: 0px; }
+#menu li { display: table-cell; width: 12%; border-bottom: 1px solid black; text-indent: 0px; }
+#menu li.selected { border-top: 2px solid black; border-bottom: 0px; border-radius: 12px 12px 0px 0px; }
+#menu li.prev { border-radius: 0px 0px 12px 0px; }
+#menu li.next { border-radius: 0px 0px 0px 12px; }
+#menu li a, #menu li span { display: block; padding-top: 5px; padding-bottom: 5px; text-shadow: 1px 1px 1px gray; }
+#menu li a:hover { position: relative; left: -1px; top: -1px; text-shadow: 2px 2px 2px gray; }
+#menu li.left, #menu li.right { width: 8%; }
+article { clear: both; }
+footer { clear: both; border-top: 1px solid black; width: 100%; display: table; margin-top: 30px; padding-top: 10px; }
+footer div { display: table-cell; width: 33%; }
+#copyright { text-align: right; vertical-align: top; }
+#icons { text-align: center; }
+#icons img { height: 20px; }
+mark { font-weight: bold; color: red; background-color: transparent; animation: blink 1s steps(1) infinite; -webkit-animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { color: transparent; } }
+@-webkit-keyframes blink { 50% { color: transparent; } }
+a { text-decoration: none; }
