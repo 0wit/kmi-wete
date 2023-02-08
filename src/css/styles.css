@@ -5,6 +5,10 @@
   gap: 30px; }
   .grid__lines {
     border: 1px solid black; }
+  .grid__margin {
+    margin: 10px; }
+  .grid__padding {
+    padding: 10px; }
 
 .grid__block-c-1-8 {
   grid-column: auto/span 3; }
