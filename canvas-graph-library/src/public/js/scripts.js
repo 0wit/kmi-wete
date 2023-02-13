@@ -1,11 +1,13 @@
 let total = 0;
 let length = 0;
+let fullAngle = 2 * Math.PI;
+let colors = [];
 
 function init()
 {
-    canvas = document.getElementById("canvas");
-    ctx = canvas.getContext("2d");
-    canvas.addEventListener("mousedown", mouseDown(4,5,6,7), false);
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    canvas.addEventListener('mousedown', mouseDown(4,5,6,7), false);
     // canvas.addEventListener("mousemove", mouseXY(), false);
     // canvas.addEventListener("touchstart", touchDown(), false);
     // canvas.addEventListener("touchmove", touchXY(), true);
@@ -16,17 +18,39 @@ function init()
 
 window.addEventListener("load", init, false);
 
-function mouseDown(...values) {
-    ctx.beginPath();
-    ctx.arc(100, 65, 60, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.closePath();
-    ctx.fill();
+function generateRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
+function processValues(values) {
     total = values.reduce((a, b) => a + b, 0);
     length = values.length;
-    
-    for (value of values) {
-
+    for (let i = 0; i < length; i++) {
+        values[i] = values[i] / total;
+        colors[i] = generateRandomColor();
     }
+    return values;
+}
+
+function mouseDown(...values) {
+
+    values = processValues(values); 
+    let startAngle = 0;
+    let endAngle;
+    
+    for (let i = 0; i< values.length; i++) {
+        endAngle = startAngle + (values[i] * fullAngle)
+        ctx.beginPath();
+        ctx.arc(100, 65, 60, startAngle, endAngle);
+        ctx.lineTo(100, 65)
+        ctx.closePath();
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+        startAngle = endAngle;
+    }    
 }
