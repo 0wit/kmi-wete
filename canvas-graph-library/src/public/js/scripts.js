@@ -1,12 +1,17 @@
 let total = 0;
 let length = 0;
+let maxValue = 0;
+let valuesSegment = [];
+let columnWidth = 100;
+let columnLimit = 15;
 let fullAngle = 2 * Math.PI;
 let colors = [];
 
 function init() {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
-  canvas.addEventListener("mousedown", mouseDown(4, 5, 6, 7), false);
+  //canvas.addEventListener("mousedown", mouseDown(4, 7, 5, 6), false);
+  canvas.addEventListener("mousedown", mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
 }
 
 window.addEventListener("load", init, false);
@@ -20,8 +25,13 @@ function generateRandomColor() {
   return color;
 }
 
-// function createLineGraphOrigin() {
-function mouseDown() {
+function mouseDown(...values) {
+  values = processValues(values);
+  createLineGraphOrigin();
+  createColumnGraph(values)
+}
+
+function createLineGraphOrigin() {
   ctx.beginPath();
   ctx.moveTo(100, 75);
   ctx.lineTo(100, 725);
@@ -33,24 +43,35 @@ function mouseDown() {
 function processValues(values) {
   total = values.reduce((a, b) => a + b, 0);
   length = values.length;
+
+  if (values.length > columnLimit) {
+    columnWidth = columnWidth/Math.floor((values.length / columnLimit));
+  }
+
+  maxValue = Math.max.apply(Math, values);
+
   for (let i = 0; i < length; i++) {
-    values[i] = values[i] / total;
+    valuesSegment[i] = values[i] / maxValue;
     colors[i] = generateRandomColor();
   }
+
+  for (let i = 0; i < length; i++) {
+    values[i] = values[i] / total;
+  }
+  
   return values;
 }
 
-function create(...values) {
-  values = processValues(values);
+// function create(...values) {
+//   values = processValues(values);
 
-  for (let i = 0; i < values.length; i++) {}
-  ctx.fillStyle = "#00f";
-  ctx.strokeStyle = "#f00";
-  ctx.lineWidth = 4;
-}
+//   for (let i = 0; i < values.length; i++) {}
+//   ctx.fillStyle = "#00f";
+//   ctx.strokeStyle = "#f00";
+//   ctx.lineWidth = 4;
+// }
 
-function createPieGraph(...values) {
-  values = processValues(values);
+function createPieGraph(values) {
   let startAngle = 0;
   let endAngle;
 
@@ -63,5 +84,19 @@ function createPieGraph(...values) {
     ctx.fillStyle = colors[i];
     ctx.fill();
     startAngle = endAngle;
+  }
+}
+
+
+function createColumnGraph(values) {
+
+  let xAxisSegment = 1820/(values.length + 1);
+  let yAxisSegment = 0;
+
+  for (let i = 0; i < values.length; i++) {
+    yAxisSegment = 725 - (650 * valuesSegment[i]);
+    ctx.fillStyle = colors[i];
+    ctx.fillRect(xAxisSegment + i * xAxisSegment, yAxisSegment,
+     columnWidth, (650 * valuesSegment[i]) - 1);
   }
 }
