@@ -28,7 +28,8 @@ function generateRandomColor() {
 function mouseDown(...values) {
   values = processValues(values);
   createLineGraphOrigin();
-  createColumnGraph(values)
+  //createColumnGraph(values)
+  createPointGraph(values);
 }
 
 function createLineGraphOrigin() {
@@ -38,6 +39,7 @@ function createLineGraphOrigin() {
   ctx.stroke();
   ctx.lineTo(1820, 725);
   ctx.stroke();
+  ctx.closePath();
 }
 
 function processValues(values) {
@@ -61,15 +63,6 @@ function processValues(values) {
   
   return values;
 }
-
-// function create(...values) {
-//   values = processValues(values);
-
-//   for (let i = 0; i < values.length; i++) {}
-//   ctx.fillStyle = "#00f";
-//   ctx.strokeStyle = "#f00";
-//   ctx.lineWidth = 4;
-// }
 
 function createPieGraph(values) {
   let startAngle = 0;
@@ -98,5 +91,19 @@ function createColumnGraph(values) {
     ctx.fillStyle = colors[i];
     ctx.fillRect(xAxisSegment + i * xAxisSegment, yAxisSegment,
      columnWidth, (650 * valuesSegment[i]) - 1);
+  }
+}
+
+function createPointGraph(values) {
+
+  let xAxisSegment = 1820/(values.length + 1);
+  let yAxisSegment = 0;
+
+  for (let i = 0; i < values.length; i++) {
+    yAxisSegment = 725 - (650 * valuesSegment[i]);
+    ctx.beginPath();
+    ctx.fillStyle = '#000000';
+    ctx.arc(xAxisSegment + i * xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
+    ctx.fill();
   }
 }
