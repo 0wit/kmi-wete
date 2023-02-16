@@ -10,8 +10,8 @@ let colors = [];
 function init() {
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
-  //canvas.addEventListener("mousedown", mouseDown(4, 7, 5, 6), false);
-  canvas.addEventListener("mousedown", mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
+  canvas.addEventListener("mousedown", mouseDown(4, 7, 5, 6), false);
+  //canvas.addEventListener("mousedown", mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
 }
 
 window.addEventListener("load", init, false);
@@ -27,12 +27,13 @@ function generateRandomColor() {
 
 function mouseDown(...values) {
   values = processValues(values);
-  createLineGraphOrigin();
+  createGraphOrigin();
   //createColumnGraph(values)
-  createPointGraph(values);
+  //createPointGraph(values);
+  createLineGraph(values)
 }
 
-function createLineGraphOrigin() {
+function createGraphOrigin() {
   ctx.beginPath();
   ctx.moveTo(100, 75);
   ctx.lineTo(100, 725);
@@ -105,5 +106,26 @@ function createPointGraph(values) {
     ctx.fillStyle = '#000000';
     ctx.arc(xAxisSegment + i * xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
     ctx.fill();
+  }
+}
+
+function createLineGraph(values) {
+
+  let xAxisSegment = 1820/(values.length + 1);
+  let yAxisSegment = 725 - (650 * valuesSegment[0]);
+  ctx.beginPath();
+  ctx.arc(xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
+  ctx.fill();
+
+  for (let i = 1; i < values.length; i++) {
+    yAxisSegment = 725 - (650 * valuesSegment[i]);
+    ctx.beginPath();
+    ctx.fillStyle = '#000000';
+    ctx.arc(xAxisSegment + i * xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.moveTo(xAxisSegment + (i-1) * xAxisSegment, 725 - (650 * valuesSegment[i-1]));
+    ctx.lineTo(xAxisSegment + i * xAxisSegment, yAxisSegment);
+    ctx.stroke();
   }
 }
