@@ -1,14 +1,27 @@
+import {Pie} from './Pie.js';
+
+// general variables 
+
 let total = 0;
 let length = 0;
-let maxValue = 0;
+let colors = [];
+let valuesSegment = [];
+let ctx;
+let currentGraph = "";
+
+// column variables
 
 let columnWidth = 100;
 let columnLimit = 15;
 let fullAngle = 2 * Math.PI;
-
-let colors = [];
+let maxValue = 0;
 let valuesColumns = [];
-let valuesSegment = [];
+
+// pie variables
+
+let pies = [];
+
+// starting function
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -19,6 +32,8 @@ function init() {
 
 window.addEventListener("load", init, false);
 
+// generating random colors for graphs
+
 function generateRandomColor() {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -28,16 +43,22 @@ function generateRandomColor() {
   return color;
 }
 
+// function currently used for testing
+
 function mouseDown(...values) {
   values = processValues(values);
-  createGraphOrigin();
-  createGraphName("First quater statistics")
-  createColumnGraph(values)
+  //createGraphOrigin();
+  //createGraphName("First quater statistics")
+  //createColumnGraph(values)
+  createPieGraph(values);
   //createPointGraph(values);
   //createLineGraph(values)
-  createGraphLegend("alpha", "beta", "gamma", "delta");
-  highlightColumn(valuesColumns[0]);
+  //createGraphLegend("alpha", "beta", "gamma", "delta");
+  //highlightColumn(valuesColumns[0]);
+  highlightPie(pies[0])
 }
+
+// creates graph origin (not used in pie graph)
 
 function createGraphOrigin() {
   ctx.beginPath();
@@ -48,6 +69,8 @@ function createGraphOrigin() {
   ctx.stroke();
   ctx.closePath();
 }
+
+// setting up variables
 
 function processValues(values) {
   total = values.reduce((a, b) => a + b, 0);
@@ -71,22 +94,31 @@ function processValues(values) {
   return values;
 }
 
+//pie graph
+
 function createPieGraph(values) {
   let startAngle = 0;
   let endAngle;
 
   for (let i = 0; i < values.length; i++) {
     endAngle = startAngle + values[i] * fullAngle;
+    const pie = new Pie(i, startAngle, endAngle, colors[i]);
+    
     ctx.beginPath();
-    ctx.arc(960, 400, 300, startAngle, endAngle);
+    ctx.arc(960, 400, 300, pie.startAngle, pie.endAngle);
     ctx.lineTo(960, 400);
     ctx.closePath();
-    ctx.fillStyle = colors[i];
+    ctx.fillStyle = pie.color;
     ctx.fill();
+
+    pies[i] = pie;
     startAngle = endAngle;
   }
+
+  currentGraph = "pie";
 }
 
+//column graph
 
 function createColumnGraph(values) {
 
@@ -103,7 +135,11 @@ function createColumnGraph(values) {
     valuesColumns[i] = [xAxisSegment + i * xAxisSegment, yAxisSegment,
       (650 * valuesSegment[i]) - 1, colors[i]];
   }
+
+  currentGraph = "column";
 }
+
+// point graph
 
 function createPointGraph(values) {
 
@@ -117,7 +153,11 @@ function createPointGraph(values) {
     ctx.arc(xAxisSegment + i * xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
     ctx.fill();
   }
+
+  currentGraph = "point";
 }
+
+// line graph
 
 function createLineGraph(values) {
 
@@ -138,12 +178,18 @@ function createLineGraph(values) {
     ctx.lineTo(xAxisSegment + i * xAxisSegment, yAxisSegment);
     ctx.stroke();
   }
+
+  currentGraph = "line";
 }
+
+// graph name
 
 function createGraphName(name) {
   ctx.font = "30px Arial";
   ctx.fillText(name, 760, 50); 
 }
+
+// graph legend (TODO add lines)
 
 function createGraphLegend(...valueNames) {
 
@@ -164,9 +210,22 @@ function createGraphLegend(...valueNames) {
   }
 }
 
+// highlighting a column after user input
+
 function highlightColumn(column) {
   ctx.shadowColor = "black";
   ctx.shadowBlur = 30;
   ctx.fillStyle = column[3];
   ctx.fillRect(column[0], column[1], columnWidth, column[2]);
+}
+
+// highlighting a part of pie graph after user input
+
+function highlightPie(pie) {
+  ctx.beginPath();
+  ctx.arc(960, 400, 300, pie.startAngle, pie.endAngle);
+  ctx.lineTo(960, 400);
+  ctx.closePath();
+  ctx.fillStyle = pie.color;
+  ctx.fill();
 }
