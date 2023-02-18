@@ -32,7 +32,7 @@ function mouseDown(...values) {
   createColumnGraph(values)
   //createPointGraph(values);
   //createLineGraph(values)
-  createGraphLegend(values);
+  createGraphLegend("alpha", "beta", "gamma", "delta");
 }
 
 function createGraphOrigin() {
@@ -137,13 +137,21 @@ function createGraphName(name) {
   ctx.fillText(name, 760, 50); 
 }
 
-function createGraphLegend(values) {
+function createGraphLegend(...valueNames) {
 
-  for (let i = 0; i < values.length; i++)
-  {
+  let currentLegendWidth = 100;
+  let currentLegendHeight = 760;
+
+  for (let i = 0; i < valueNames.length; i++) {
     ctx.beginPath();
-    ctx.rect(100, 760, 10, 10);
+    ctx.rect(currentLegendWidth, currentLegendHeight, 10, 10);
     ctx.fillStyle = colors[i];
     ctx.fill(); 
+    ctx.strokeRect(currentLegendWidth, currentLegendHeight, 11, 11);
+    ctx.stroke();
+    ctx.font = "10px Arial";
+    ctx.fillStyle = '#000000';
+    ctx.fillText(valueNames[i], currentLegendWidth + 15, currentLegendHeight + 10);
+    currentLegendWidth += 100; 
   }
 }
