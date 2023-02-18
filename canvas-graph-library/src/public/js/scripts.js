@@ -1,4 +1,5 @@
 import {Pie} from './Pie.js';
+import {Point} from './Point.js';
 
 // general variables 
 
@@ -7,7 +8,7 @@ let length = 0;
 let colors = [];
 let valuesSegment = [];
 let ctx;
-let currentGraph = "";
+let currentGraph = '';
 
 // column variables
 
@@ -24,22 +25,26 @@ const pieCenterX = 960;
 const pieCenterY = 400;
 const pieRadius = 300;
 
+// point + line variables
+let points = [];
+const pointRadius = 3;
+
 // starting function
 
 function init() {
-  canvas = document.getElementById("canvas");
-  ctx = canvas.getContext("2d");
-  canvas.addEventListener("mousedown", mouseDown(4, 7, 5, 6), false);
-  //canvas.addEventListener("mousedown", mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
+  canvas = document.getElementById('canvas');
+  ctx = canvas.getContext('2d');
+  canvas.addEventListener('mousedown', mouseDown(4, 7, 5, 6), false);
+  //canvas.addEventListener('mousedown', mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
 }
 
-window.addEventListener("load", init, false);
+window.addEventListener('load', init, false);
 
 // generating random colors for graphs
 
 function generateRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
+  const letters = '0123456789ABCDEF';
+  let color = '#';
   for (var i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
@@ -50,15 +55,16 @@ function generateRandomColor() {
 
 function mouseDown(...values) {
   values = processValues(values);
-  //createGraphOrigin();
-  //createGraphName("First quater statistics")
+  createGraphOrigin();
+  //createGraphName('First quater statistics')
   //createColumnGraph(values)
-  createPieGraph(values);
+  //createPieGraph(values);
   //createPointGraph(values);
-  //createLineGraph(values)
-  //createGraphLegend("alpha", "beta", "gamma", "delta");
+  createLineGraph(values)
+  //createGraphLegend('alpha', 'beta', 'gamma', 'delta');
   //highlightColumn(valuesColumns[0]);
-  highlightPie(pies[0])
+  //highlightPie(pies[0])
+  highlightPoint(points[1]);
 }
 
 // creates graph origin (not used in pie graph)
@@ -118,7 +124,7 @@ function createPieGraph(values) {
     startAngle = endAngle;
   }
 
-  currentGraph = "pie";
+  currentGraph = 'pie';
 }
 
 //column graph
@@ -139,7 +145,7 @@ function createColumnGraph(values) {
       (650 * valuesSegment[i]) - 1, colors[i]];
   }
 
-  currentGraph = "column";
+  currentGraph = 'column';
 }
 
 // point graph
@@ -151,13 +157,16 @@ function createPointGraph(values) {
 
   for (let i = 0; i < values.length; i++) {
     yAxisSegment = 725 - (650 * valuesSegment[i]);
+    const point = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
+
     ctx.beginPath();
-    ctx.fillStyle = '#000000';
-    ctx.arc(xAxisSegment + i * xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
+    ctx.arc(point.x, point.y, pointRadius, 0, 2 * Math.PI);
     ctx.fill();
+
+    points[i] = point;
   }
 
-  currentGraph = "point";
+  currentGraph = 'point';
 }
 
 // line graph
@@ -170,25 +179,33 @@ function createLineGraph(values) {
   ctx.arc(xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
   ctx.fill();
 
+  const point = new Point(0, xAxisSegment, yAxisSegment);
+  points[0] = point;
+
   for (let i = 1; i < values.length; i++) {
+
     yAxisSegment = 725 - (650 * valuesSegment[i]);
+    const currentPoint = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
+    const previousPoint = points[i-1];
+
     ctx.beginPath();
-    ctx.fillStyle = '#000000';
-    ctx.arc(xAxisSegment + i * xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
+    ctx.arc(currentPoint.x, currentPoint.y, pointRadius, 0, 2 * Math.PI);
     ctx.fill();
 
-    ctx.moveTo(xAxisSegment + (i-1) * xAxisSegment, 725 - (650 * valuesSegment[i-1]));
-    ctx.lineTo(xAxisSegment + i * xAxisSegment, yAxisSegment);
+    ctx.moveTo(previousPoint.x, previousPoint.y);
+    ctx.lineTo(currentPoint.x, currentPoint.y);
     ctx.stroke();
+
+    points[i] = currentPoint;
   }
 
-  currentGraph = "line";
+  currentGraph = 'line';
 }
 
 // graph name
 
 function createGraphName(name) {
-  ctx.font = "30px Arial";
+  ctx.font = '30px Arial';
   ctx.fillText(name, 760, 50); 
 }
 
@@ -206,7 +223,7 @@ function createGraphLegend(...valueNames) {
     ctx.fill(); 
     ctx.strokeRect(currentLegendWidth, currentLegendHeight, 11, 11);
     ctx.stroke();
-    ctx.font = "10px Arial";
+    ctx.font = '10px Arial';
     ctx.fillStyle = '#000000';
     ctx.fillText(valueNames[i], currentLegendWidth + 15, currentLegendHeight + 10);
     currentLegendWidth += 100; 
@@ -216,7 +233,7 @@ function createGraphLegend(...valueNames) {
 // highlighting a column after user input
 
 function highlightColumn(column) {
-  ctx.shadowColor = "black";
+  ctx.shadowColor = 'black';
   ctx.shadowBlur = 30;
   ctx.fillStyle = column[3];
   ctx.fillRect(column[0], column[1], columnWidth, column[2]);
@@ -230,7 +247,7 @@ function highlightPie(pie) {
   ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
   ctx.lineTo(pieCenterX, pieCenterY);
   ctx.closePath();
-  ctx.fillStyle = "white";
+  ctx.fillStyle = 'white';
   ctx.fill();
 
   ctx.beginPath();
@@ -238,5 +255,14 @@ function highlightPie(pie) {
   ctx.lineTo(pieCenterX, pieCenterY);
   ctx.closePath();
   ctx.fillStyle = pie.color;
+  ctx.fill();
+}
+
+// highlighting point
+
+function highlightPoint(point) {
+  ctx.beginPath();
+  ctx.fillStyle = 'red';
+  ctx.arc(point.x, point.y, 2 * pointRadius, 0, 2 * Math.PI);
   ctx.fill();
 }
