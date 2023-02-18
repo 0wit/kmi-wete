@@ -1,11 +1,14 @@
 let total = 0;
 let length = 0;
 let maxValue = 0;
-let valuesSegment = [];
+
 let columnWidth = 100;
 let columnLimit = 15;
 let fullAngle = 2 * Math.PI;
+
 let colors = [];
+let valuesColumns = [];
+let valuesSegment = [];
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -33,6 +36,7 @@ function mouseDown(...values) {
   //createPointGraph(values);
   //createLineGraph(values)
   createGraphLegend("alpha", "beta", "gamma", "delta");
+  highlightColumn(valuesColumns[0]);
 }
 
 function createGraphOrigin() {
@@ -92,8 +96,12 @@ function createColumnGraph(values) {
   for (let i = 0; i < values.length; i++) {
     yAxisSegment = 725 - (650 * valuesSegment[i]);
     ctx.fillStyle = colors[i];
+
     ctx.fillRect(xAxisSegment + i * xAxisSegment, yAxisSegment,
      columnWidth, (650 * valuesSegment[i]) - 1);
+
+    valuesColumns[i] = [xAxisSegment + i * xAxisSegment, yAxisSegment,
+      (650 * valuesSegment[i]) - 1, colors[i]];
   }
 }
 
@@ -154,4 +162,11 @@ function createGraphLegend(...valueNames) {
     ctx.fillText(valueNames[i], currentLegendWidth + 15, currentLegendHeight + 10);
     currentLegendWidth += 100; 
   }
+}
+
+function highlightColumn(column) {
+  ctx.shadowColor = "black";
+  ctx.shadowBlur = 30;
+  ctx.fillStyle = column[3];
+  ctx.fillRect(column[0], column[1], columnWidth, column[2]);
 }
