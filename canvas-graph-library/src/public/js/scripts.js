@@ -28,9 +28,11 @@ function generateRandomColor() {
 function mouseDown(...values) {
   values = processValues(values);
   createGraphOrigin();
-  //createColumnGraph(values)
+  createGraphName("First quater statistics")
+  createColumnGraph(values)
   //createPointGraph(values);
-  createLineGraph(values)
+  //createLineGraph(values)
+  createGraphLegend(values);
 }
 
 function createGraphOrigin() {
@@ -48,7 +50,7 @@ function processValues(values) {
   length = values.length;
 
   if (values.length > columnLimit) {
-    columnWidth = columnWidth/Math.floor((values.length / columnLimit));
+    columnWidth = columnWidth/Math.floor((values.length / columnLimit) + 1);
   }
 
   maxValue = Math.max.apply(Math, values);
@@ -127,5 +129,21 @@ function createLineGraph(values) {
     ctx.moveTo(xAxisSegment + (i-1) * xAxisSegment, 725 - (650 * valuesSegment[i-1]));
     ctx.lineTo(xAxisSegment + i * xAxisSegment, yAxisSegment);
     ctx.stroke();
+  }
+}
+
+function createGraphName(name) {
+  ctx.font = "30px Arial";
+  ctx.fillText(name, 760, 50); 
+}
+
+function createGraphLegend(values) {
+
+  for (let i = 0; i < values.length; i++)
+  {
+    ctx.beginPath();
+    ctx.rect(100, 760, 10, 10);
+    ctx.fillStyle = colors[i];
+    ctx.fill(); 
   }
 }
