@@ -20,6 +20,9 @@ let valuesColumns = [];
 // pie variables
 
 let pies = [];
+const pieCenterX = 960;
+const pieCenterY = 400;
+const pieRadius = 300;
 
 // starting function
 
@@ -105,8 +108,8 @@ function createPieGraph(values) {
     const pie = new Pie(i, startAngle, endAngle, colors[i]);
     
     ctx.beginPath();
-    ctx.arc(960, 400, 300, pie.startAngle, pie.endAngle);
-    ctx.lineTo(960, 400);
+    ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
+    ctx.lineTo(pieCenterX, pieCenterY);
     ctx.closePath();
     ctx.fillStyle = pie.color;
     ctx.fill();
@@ -222,9 +225,17 @@ function highlightColumn(column) {
 // highlighting a part of pie graph after user input
 
 function highlightPie(pie) {
+  
   ctx.beginPath();
-  ctx.arc(960, 400, 300, pie.startAngle, pie.endAngle);
-  ctx.lineTo(960, 400);
+  ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
+  ctx.lineTo(pieCenterX, pieCenterY);
+  ctx.closePath();
+  ctx.fillStyle = "white";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(pieCenterX + 20, pieCenterY + 20, pieRadius, pie.startAngle, pie.endAngle);
+  ctx.lineTo(pieCenterX, pieCenterY);
   ctx.closePath();
   ctx.fillStyle = pie.color;
   ctx.fill();
