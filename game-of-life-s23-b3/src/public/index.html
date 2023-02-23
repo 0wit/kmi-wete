@@ -3,20 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="author" content="Stepan Sumpik" />
-    <title>Game of life</title>
+    <title>Game of Life</title>
     <link rel="stylesheet" href="./css/styles.css" />
     <base href="./js/">
   </head>
   <body>
     <p>Count numbers: <output id="result"></output></p>
     <div class="canvasContainer">
-      <canvas id="canvas" class="canvas"  width = "300" height = "300">
+      <canvas id="canvas" class="canvas"  width = "800" height = "800">
       </canvas> 
     </div>
     <div class="buttons">
       <button onclick="start()">Start Worker</button>
       <button onclick="stop()">Stop Worker</button>
     </div>
+    <div id="mouse-pos"></div>
   </body>
   <script  src="./scripts.js"></script>
 </html>

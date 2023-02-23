@@ -1,6 +1,8 @@
 let w;
+let stopped = true;
 let cells = [];
-let height, width = 300 + 50;
+let height = 800;
+let width = 800;
 
 function start() {
   if (typeof Worker !== "undefined") {
@@ -21,25 +23,52 @@ function stop() {
   w = undefined;
 }
 
-function init() {
+function changeCellState(canvas, e) {  
+  const rect = canvas.getBoundingClientRect();
+  scaleX = canvas.width / rect.width,
+  scaleY = canvas.height / rect.height;
+  x = Math.round((e.clientX - rect.left) * scaleX);
+  y = Math.round((e.clientY - rect.top) * scaleY);
 
-  canvas = document.getElementById('canvas');
-  ctx = canvas.getContext('2d');
+  i = x;
+  j = y;
+
+  console.log(cells[i][j]);
+  
+  cells[i][j] = !cells[i][j];
+  ctx.fillStyle = "black";
+
+  console.log(cells[i][j]);
+
+  if (!cells[i][j]) {
+    ctx.fillStyle = "white";
+  }
+
+  ctx.beginPath();
+  ctx.fillRect(i, j, 1, 1);
+  
+}
+
+function init() {
 
   for (let i = 0; i < height; i++)
   {
+    cells[i] = [];
     for (let j = 0; j < width; j++)
     {
       cells[i][j] = false;
     }
   }
+  canvas = document.getElementById('canvas');
+  canvas.addEventListener("mousedown", function(e){changeCellState(canvas, e)});
+  ctx = canvas.getContext('2d');
 }
 
 function step() {
 
-  for (let i = 1; i < height; i++)
+  for (let i = 5; i < height; i++)
   {
-    for (let j = 1; j < width; j++)
+    for (let j = 5; j < width; j++)
     {  
       aliveNeighbours = 0;
 
@@ -62,7 +91,6 @@ function step() {
       }
 
       if (!cells[i][j] && aliveNeighbours == 3) {
-        ctx.fillStyle = "black";
         cells[i][j] = true;
       }
       
