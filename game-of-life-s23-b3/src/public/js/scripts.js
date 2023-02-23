@@ -1,13 +1,19 @@
-import {Cell} from "./Cell.js";
-
 let worker;
 let stopped = true;
 let cells = [];
 let ctx;
 const gameScale = 4
-const gameBorder = 5;
 const height = 800;
 const width = 800;
+
+class Cell {
+  constructor(x, y, size, state) {
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.state = state;
+  }
+}
 
 function start() {
   if (typeof Worker !== "undefined") {
@@ -38,14 +44,13 @@ function changeCellState(canvas, e) {
   let x = Math.floor((e.clientX - rect.left) / gameScale) * gameScale;
   let y = Math.floor((e.clientY - rect.top) / gameScale) * gameScale;
 
-  const i = Math.floor(x / gameScale) + gameBorder;
-  const j = Math.floor(y / gameScale) + gameBorder;  
+  const i = Math.floor(x / gameScale)
+  const j = Math.floor(y / gameScale);
   
   cells[i][j].state = !cells[i][j].state;
   ctx.fillStyle = "black";
 
   if (!cells[i][j].state) {
-    console.log(cells[i][j].state);
     ctx.fillStyle = "white";
   }
 
@@ -54,10 +59,10 @@ function changeCellState(canvas, e) {
 
 function init() {
 
-  for (let i = 0; i < (height/gameScale) + gameBorder; i++)
+  for (let i = 0; i < (height/gameScale); i++)
   {
     cells[i] = [];
-    for (let j = 0; j < (width/gameScale) + gameBorder; j++)
+    for (let j = 0; j < (width/gameScale); j++)
     {
       cells[i][j] = new Cell(i, j, gameScale, false);
     }
@@ -69,32 +74,33 @@ function init() {
 
 function step() {
 
-  for (let i = 0; i < height; i++)
+  for (let i = 0; i < height/gameScale; i++)
   {
-    for (let j = 0; j < width; j++)
+    for (let j = 0; j < width/gameScale; j++)
     {  
       aliveNeighbours = 0;
 
-      if (cell[i-1, j]){
+      if (cell[i-1, j].state){
         aliveNeighbours += 1;
       }
-      if (cell[i+1, j]){
+      if (cell[i+1, j].state){
         aliveNeighbours += 1;
       }
-      if (cell[i, j-1]){
+      if (cell[i, j-1].state){
         aliveNeighbours += 1;
       }
-      if (cell[i, j+1]){
+      if (cell[i, j+1].state){
         aliveNeighbours += 1;
       }
       
       if (aliveNeighbours < 2  || aliveNeighbours > 3) {
         ctx.fillStyle = "white";
-        cells[i][j] = false;
+        cells[i][j].state = false;
       }
 
-      if (!cells[i][j] && aliveNeighbours == 3) {
-        cells[i][j] = true;
+      if (!cells[i][j].state && aliveNeighbours == 3) {
+        ctx.fillStyle = "black";
+        cells[i][j].state = true;
       }
       
       ctx.fillRect(i, j, 1, 1);      
