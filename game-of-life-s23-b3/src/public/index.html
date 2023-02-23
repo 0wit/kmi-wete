@@ -5,6 +5,7 @@
     <meta name="author" content="Stepan Sumpik" />
     <title>Game of Life</title>
     <link rel="stylesheet" href="./css/styles.css" />
+    <script type="javascript" src="Cell.js"></script>
     <base href="./js/">
   </head>
   <body>
@@ -14,10 +15,11 @@
       </canvas> 
     </div>
     <div class="buttons">
-      <button onclick="start()">Start Worker</button>
-      <button onclick="stop()">Stop Worker</button>
+      <button onclick="start()">Start</button>
+      <button onclick="stop()">Stop</button>
+      <button onclick="reset()">Reset</button>
     </div>
     <div id="mouse-pos"></div>
   </body>
-  <script  src="./scripts.js"></script>
+  <script type="module" src="./scripts.js"></script>
 </html>

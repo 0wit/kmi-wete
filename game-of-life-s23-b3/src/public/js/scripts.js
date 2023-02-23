@@ -1,15 +1,20 @@
-let w;
+import {Cell} from "./Cell.js";
+
+let worker;
 let stopped = true;
 let cells = [];
-let height = 800;
-let width = 800;
+let ctx;
+const gameScale = 4
+const gameBorder = 5;
+const height = 800;
+const width = 800;
 
 function start() {
   if (typeof Worker !== "undefined") {
-    if (typeof w == "undefined") {
-      w = new Worker("demo_workers.js");
+    if (typeof worker == "undefined") {
+      worker = new Worker("demo_workers.js");
     }
-    w.onmessage = function (event) {
+    worker.onmessage = function (event) {
       document.getElementById("result").innerHTML = event.data;
     };
   } else {
@@ -19,44 +24,42 @@ function start() {
 }
 
 function stop() {
-  w.terminate();
-  w = undefined;
+  worker.terminate();
+  worker = undefined;
+}
+
+function reset() {
+  worker.terminate();
+  worker = undefined;
 }
 
 function changeCellState(canvas, e) {  
   const rect = canvas.getBoundingClientRect();
-  scaleX = canvas.width / rect.width,
-  scaleY = canvas.height / rect.height;
-  x = Math.round((e.clientX - rect.left) * scaleX);
-  y = Math.round((e.clientY - rect.top) * scaleY);
+  let x = Math.floor((e.clientX - rect.left) / gameScale) * gameScale;
+  let y = Math.floor((e.clientY - rect.top) / gameScale) * gameScale;
 
-  i = x;
-  j = y;
-
-  console.log(cells[i][j]);
+  const i = Math.floor(x / gameScale) + gameBorder;
+  const j = Math.floor(y / gameScale) + gameBorder;  
   
-  cells[i][j] = !cells[i][j];
+  cells[i][j].state = !cells[i][j].state;
   ctx.fillStyle = "black";
 
-  console.log(cells[i][j]);
-
-  if (!cells[i][j]) {
+  if (!cells[i][j].state) {
+    console.log(cells[i][j].state);
     ctx.fillStyle = "white";
   }
 
-  ctx.beginPath();
-  ctx.fillRect(i, j, 1, 1);
-  
+  ctx.fillRect(x, y, 1 * gameScale, 1 * gameScale);  
 }
 
 function init() {
 
-  for (let i = 0; i < height; i++)
+  for (let i = 0; i < (height/gameScale) + gameBorder; i++)
   {
     cells[i] = [];
-    for (let j = 0; j < width; j++)
+    for (let j = 0; j < (width/gameScale) + gameBorder; j++)
     {
-      cells[i][j] = false;
+      cells[i][j] = new Cell(i, j, gameScale, false);
     }
   }
   canvas = document.getElementById('canvas');
@@ -66,9 +69,9 @@ function init() {
 
 function step() {
 
-  for (let i = 5; i < height; i++)
+  for (let i = 0; i < height; i++)
   {
-    for (let j = 5; j < width; j++)
+    for (let j = 0; j < width; j++)
     {  
       aliveNeighbours = 0;
 
