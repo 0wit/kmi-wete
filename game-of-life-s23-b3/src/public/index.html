@@ -6,11 +6,17 @@
     <title>Game of life</title>
     <link rel="stylesheet" href="./css/styles.css" />
     <base href="./js/">
-    <script  src="./scripts.js"></script>
   </head>
   <body>
     <p>Count numbers: <output id="result"></output></p>
-    <button onclick="startWorker()">Start Worker</button>
-    <button onclick="stopWorker()">Stop Worker</button>
+    <div class="canvasContainer">
+      <canvas id="canvas" class="canvas"  width = "300" height = "300">
+      </canvas> 
+    </div>
+    <div class="buttons">
+      <button onclick="start()">Start Worker</button>
+      <button onclick="stop()">Stop Worker</button>
+    </div>
   </body>
+  <script  src="./scripts.js"></script>
 </html>

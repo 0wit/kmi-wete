@@ -1,0 +1,19 @@
+.canvasContainer {
+  margin: 0em 6em 0.5em;
+  text-align: center;
+}
+
+.canvas {
+  border: 1px solid black;
+  width: 50%;
+}
+
+.buttons {
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+  .canvasContainer {
+    margin: 3em 3em 0em;
+  }
+}
