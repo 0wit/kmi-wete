@@ -5,12 +5,12 @@ session_start();
 $id = $_POST['id'];
 $out = "There was a mistake, no user was updated.";
 
-
-for ($i = 0; $i < count($_SESSION['users']); $i++) {
-    if ($id == $_SESSION['users'][$i]->id) {
-        unset($_SESSION['users'], $i);
+foreach($_SESSION['users'] as $key=>$value) {
+    if ($id == $value->id) {
         $out = "User was updated.";
+        $_SESSION['users'][$key] = new User($id, $_POST['name'], $_POST['surname']);
     }
 }
+
 echo $out;
 ?>
