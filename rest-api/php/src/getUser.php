@@ -12,5 +12,4 @@ foreach ($_SESSION['users'] as $item){
 }
 
 echo $out;
-
 ?>

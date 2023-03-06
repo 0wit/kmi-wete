@@ -42,10 +42,5 @@ $_SESSION['users'];
       <br><br>       
       <input type = "submit" name = "submit" value = "Submit"> 
   </form>
-  <h2>Delete Users</h2>
-  <form action="deleteUsers.php" method = "get">               
-      <input type = "submit" name = "submit" value = "Submit"> 
-  </form>
-</body>
-  
+</body>  
 </html> 
