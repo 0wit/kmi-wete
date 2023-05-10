@@ -3,5 +3,6 @@
 
 Open public/index.html to see the result.
 
+Video showing the website:
 
-https://github.com/0wit/kmi-wete/assets/61089322/49d43b1a-f027-4f9f-a79e-0e890b666ab7
+https://github.com/0wit/kmi-wete/assets/61089322/282d6877-b69e-4235-9a3f-bd93568db448
