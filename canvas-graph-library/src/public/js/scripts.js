@@ -9,6 +9,7 @@ let colors = [];
 let valuesSegment = [];
 let ctx;
 let currentGraph = '';
+let canvasData;
 
 // column variables
 
@@ -55,14 +56,16 @@ function generateRandomColor() {
 
 function mouseDown(...values) {
   values = processValues(values);
+
+  // legend has to be first, because graph is redrawn
+
+  createGraphLegend('4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31', '4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31');
   createGraphOrigin();
   createGraphName('First quater statistics')
   createColumnGraph(values)
   //createPieGraph(values);
   //createPointGraph(values);
-  //createLineGraph(values)
-  createGraphLegend('alpha', 'beta', 'gamma', 'delta');
-  highlightColumn(valuesColumns[0]);
+  //createLineGraph(values)highlightColumn(valuesColumns[0]);
   //highlightPie(pies[0])
   //highlightPoint(points[1]);
 }
@@ -219,9 +222,19 @@ function createGraphName(name) {
 function createGraphLegend(...valueNames) {
 
   let currentLegendWidth = 100;
-  let currentLegendHeight = 760;
+  let currentLegendHeight = 710;
 
   for (let i = 0; i < valueNames.length; i++) {
+
+    if (i % columnLimit == 0)
+    {
+      storeCurrentCanvas();
+      currentLegendWidth = 100;
+      currentLegendHeight = currentLegendHeight + 50;
+      ctx.canvas.height += 50;
+      redrawPreviousCanvas();
+    }
+
     ctx.beginPath();
     ctx.rect(currentLegendWidth, currentLegendHeight, 10, 10);
     ctx.fillStyle = colors[i];
@@ -231,7 +244,7 @@ function createGraphLegend(...valueNames) {
     ctx.font = '10px Arial';
     ctx.fillStyle = '#000000';
     ctx.fillText(valueNames[i], currentLegendWidth + 15, currentLegendHeight + 10);
-    currentLegendWidth += 100; 
+    currentLegendWidth += 120; 
   }
 }
 
@@ -270,4 +283,12 @@ function highlightPoint(point) {
   ctx.fillStyle = 'red';
   ctx.arc(point.x, point.y, 2 * pointRadius, 0, 2 * Math.PI);
   ctx.fill();
+}
+
+function storeCurrentCanvas() {
+  canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+function redrawPreviousCanvas() {
+  ctx.putImageData(canvasData, 0, 0);
 }
