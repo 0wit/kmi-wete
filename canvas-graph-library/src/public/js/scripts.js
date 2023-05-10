@@ -34,8 +34,8 @@ const pointRadius = 3;
 function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
-  canvas.addEventListener('mousedown', mouseDown(4, 7, 5, 6), false);
-  //canvas.addEventListener('mousedown', mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
+  //canvas.addEventListener('mousedown', mouseDown(4, 7, 5, 6), false);
+  canvas.addEventListener('mousedown', mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
 }
 
 window.addEventListener('load', init, false);
@@ -56,15 +56,15 @@ function generateRandomColor() {
 function mouseDown(...values) {
   values = processValues(values);
   createGraphOrigin();
-  //createGraphName('First quater statistics')
-  //createColumnGraph(values)
+  createGraphName('First quater statistics')
+  createColumnGraph(values)
   //createPieGraph(values);
   //createPointGraph(values);
-  createLineGraph(values)
-  //createGraphLegend('alpha', 'beta', 'gamma', 'delta');
-  //highlightColumn(valuesColumns[0]);
+  //createLineGraph(values)
+  createGraphLegend('alpha', 'beta', 'gamma', 'delta');
+  highlightColumn(valuesColumns[0]);
   //highlightPie(pies[0])
-  highlightPoint(points[1]);
+  //highlightPoint(points[1]);
 }
 
 // creates graph origin (not used in pie graph)
@@ -85,9 +85,14 @@ function processValues(values) {
   total = values.reduce((a, b) => a + b, 0);
   length = values.length;
 
-  if (values.length > columnLimit) {
-    columnWidth = columnWidth/Math.floor((values.length / columnLimit) + 1);
+  // counting width of columns based of the number of columns that user passed to function 
+
+  if (length > columnLimit) {
+    columnWidth = columnWidth/Math.floor((length / columnLimit) + 1);
   }
+
+  // in order to get proper size and lengths of objects that are drawn on canvas, we need to know
+  // how big the current drawn object is relative to the biggest object (columns and points) and total (pies) 
 
   maxValue = Math.max.apply(Math, values);
 
