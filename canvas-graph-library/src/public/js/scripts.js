@@ -226,6 +226,8 @@ function createGraphLegend(...valueNames) {
 
   for (let i = 0; i < valueNames.length; i++) {
 
+    // when number of objects is too high, store current canvas, make new one, taller and then redraw everything
+
     if (i % columnLimit == 0)
     {
       storeCurrentCanvas();
@@ -234,6 +236,8 @@ function createGraphLegend(...valueNames) {
       ctx.canvas.height += 50;
       redrawPreviousCanvas();
     }
+
+    // draw legend object, text + square
 
     ctx.beginPath();
     ctx.rect(currentLegendWidth, currentLegendHeight, 10, 10);
