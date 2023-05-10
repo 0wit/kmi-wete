@@ -3,4 +3,5 @@
 
 Open public/index.html to see the result.
 
-https://github.com/0wit/kmi-wete/assets/61089322/48486773-7f9f-4d6a-b9f4-0924e90b82f3
+
+https://github.com/0wit/kmi-wete/assets/61089322/49d43b1a-f027-4f9f-a79e-0e890b666ab7
