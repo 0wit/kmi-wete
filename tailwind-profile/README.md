@@ -11,4 +11,10 @@ The npm install installs all modules that are listed on package.json file and th
 Runs the app.
 
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+
+
+
+
 ![responsivity](https://github.com/0wit/kmi-wete/assets/61089322/e46bec98-4343-4bbc-9e1f-cb92c6cfcab2)
