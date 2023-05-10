@@ -2,16 +2,10 @@
 <html lang="cs">
   <head>
     <meta charset="utf-8" />
-    <title>Jan Outrata – Publikace</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <link
-      rel="alternate"
-      type="text/html"
-      title="english version"
-      hreflang="en"
-      href="publications.en.html"
-    />
-    <link rel="author" href="http://outrata.inf.upol.cz" />
+    <title>Jan Outrata – Domovská stránka</title>
+    <link rel="stylesheet" href="../src/css/styles.css" />
+    <link rel="stylesheet" href="../src/css/bootstrap.min.css" />
+    <link rel="icon" type="image/x-icon" href="../src/img/favicon.ico">
     <script>
       function toggleHideElems(elems, display) {
         var i;
@@ -44,48 +38,34 @@
       .tool {
         font-size: small;
       }
-      #summary {
-        border-spacing: 1em 0px;
-      }
-      #summary .head {
-        text-align: right;
-        vertical-align: top;
-      }
     </style>
   </head>
-  <body>
-    <header>
-      <a id="lang" href="publications.en.html">english</a>
-      <h1>Jan Outrata</h1>
+  <body class="container mt-5">
+    <header class="sticky-top bg-white">
+      <h1 class="mb-3">Jan Outrata</h1>
       <nav>
-        <ul id="menu">
-          <li class="left"></li>
-          <li>
-            <a href="./index.html">domů</a>
+        <ul class="nav nav-tabs nav-pills nav-fill">
+          <li class="nav-item">
+            <a class="nav-link" href="./index.html">domů</a>
           </li>
-          <li></li>
-          <li>
-            <a href="./CV-Outrata.pdf">životopis</a>
+          <li class="nav-item">
+            <a class="nav-link" href="./cv.html">životopis</a>
+          </li class="nav-item">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">publikace</a>
           </li>
-          <li class="prev"></li>
-          <li class="selected">
-            <span>publikace</span>
+          <li class="nav-item">
+            <a class="nav-link" href="./teaching.html">výuka</a>
           </li>
-          <li class="next"></li>
-          <li>
-            <a href="./teaching.html">výuka</a>
-          </li>
-          <li class="right"></li>
         </ul>
       </nav>
     </header>
     <main role="main">
-      <h1>Publikace</h1>
-      <h2>Souhrn</h2>
-      <p>1/2017</p>
-      <table id="summary">
+      <h1 class="mt-3">Publikace</h1>
+      <h2 class="mt-3">Souhrn k 1/2017</h2>
+      <table class="table-responsive table">
         <tr>
-          <td class="head">publikací:</td>
+          <td>publikací:</td>
           <td>
             14 v časopisech s <dfn><abbr title="impact factor">IF</abbr></dfn
             >, 24 ve sbornících konferencí (20
@@ -130,9 +110,7 @@
           </td>
         </tr>
       </table>
-      <h2>
-        <a href="citations.html">Citace</a>
-      </h2>
+      <h2>Citace</h2>
       <div>
         <a
           href="#"
@@ -148,9 +126,9 @@
           >zobrazit/skrýt jména autorů</a
         >
       </div>
-      <h2>Články v časopisech</h2>
-      <ol>
-        <li id="J15" value="15">
+      <h2 class="mt-4">Články v časopisech</h2>
+      <ol class="list-group">
+        <li  id="J15" value="15">
           <a name="J15" /><span class="authors" style="display: inline"
             >Belohlavek Radim, Outrata Jan, Trnecka Martin: </span
           >Factorizing Boolean matrices using formal concepts and iterative
@@ -328,7 +306,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Wray Tim, Outrata Jan, Eklund Peter: </span
@@ -403,7 +381,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Trnečka Martin: </span
@@ -523,7 +501,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >de Carvalho V. O., de Padua R., Rezende S. O.: </span
@@ -632,7 +610,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Adaricheva Kira V., Nation James B.: </span
@@ -739,7 +717,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Zhi Huilai, Li Jinhai: </span
@@ -1135,7 +1113,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Shemis Ebtesam E., Gadallah Ahmed M.: </span
@@ -1518,7 +1496,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Shemis Ebtesam E., Gadallah Ahmed M.: </span
@@ -2072,7 +2050,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Gupta Shivani, Gupta Atul: </span
@@ -2406,7 +2384,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline">Mao Hua: </span
                   >Representing attribute reduction and concepts in concept
@@ -2528,7 +2506,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Kohli Shruti, Gupta Ankit: </span
@@ -2718,7 +2696,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Benítez M. José, Medina Jesús, Slezak Dominik: </span
@@ -3163,7 +3141,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Outrata Jan: </span
@@ -3178,7 +3156,7 @@
         </li>
       </ol>
       <h2>Příspěvky ve sbornících konferencí</h2>
-      <ol>
+      <ol class="list-group">
         <li id="D24" value="24">
           <a name="D24" /><span class="authors" style="display: inline"
             >Outrata Jan, Trnecka Martin: </span
@@ -3291,7 +3269,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Trnečka Martin: </span
@@ -3358,7 +3336,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Trnečka Martin: </span
@@ -3482,7 +3460,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Naidenova Xenia A., Parkhomenko Vladimir A., Shvetsov
@@ -3582,7 +3560,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Sun Yuan, Ye Shiwei, Shi Huiyang, Wang Haobo, Sun Yi: </span
@@ -3655,7 +3633,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Li Yun, Xu Jie, Yuan Yun-Hao, Chen Ling: </span
@@ -3820,7 +3798,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Bartl Eduard, Belohlavek Radim, Osicka Petr, Řezanková
@@ -4052,7 +4030,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Ren Ruisi, Wei Ling: </span
@@ -4193,7 +4171,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Panov Aleksandr I.: </span
@@ -4599,7 +4577,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Kodagoda Nuwan, Pulasinghe Koliya: </span
@@ -5255,7 +5233,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Kester Quist-Aphetsi: </span
@@ -5390,7 +5368,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Konecny Jan, Krupka Michal: </span
@@ -5480,7 +5458,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Girard Nathalie: </span
@@ -5559,7 +5537,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Apollonio Nicola, Caramia Massimiliano, Franciosa Paolo
@@ -5654,7 +5632,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Shemis Ebtesam E., Gadallah Ahmed M.: </span
@@ -5861,7 +5839,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Outrata Jan: </span
@@ -5943,7 +5921,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Cornejo M. E., Medina J., Ramirez-Poussa E.: </span
@@ -6165,7 +6143,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Outrata Jan: </span
@@ -6232,7 +6210,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline"
                     >Poelmans Jonas, Ignatov Dmitry I., Kuznetsov Sergei O.,
@@ -6402,7 +6380,7 @@
             </p>
             <div class="citations">
               <strong>Citace</strong>
-              <ol>
+              <ol class="list-group">
                 <li>
                   <span class="authors" style="display: inline">Xia Hong: </span
                   >Semantic Web Ontology Integration Based on Formal Concept
@@ -6709,39 +6687,38 @@
         </li>
       </ul>
     </main>
-    <footer>
-      <div></div>
-      <div id="icons">
+    <footer class="clearfix border border-left-0 border-right-0 border-bottom-0 border-secondary mt-5 pt-3 mb-3">
+      <div class="text-right">
         <a href="http://www.gnu.org/software/emacs/">
           <img
             alt="Made with Emacs"
             title="Made with Emacs"
-            src="./gnu_emacs_icon_grey.png"
+            src="../src/img/gnu_emacs_icon_grey.png"
           />
         </a>
         <a href="http://www.linux.cz">
           <img
             alt="Made on Linux"
             title="Made on Linux"
-            src="./made_on_linux.png"
+            src="../src/img/made_on_linux.png"
           />
         </a>
         <a href="http://www.dafont.com/bohemian-typewriter.font">
           <img
             alt="Using Bohemian Typerwiter font"
             title="Using Bohemian Typerwiter font"
-            src="./Remagg.jpg"
+            src="../src/img/Remagg.jpg"
           />
         </a>
         <a href="http://www.fsf.org/fb">
           <img
             alt="Not f'd — you won't find me on Facebook"
             title="Not f'd — you won't find me on Facebook"
-            src="./no-facebook-me.png"
+            src="../src/img/no-facebook-me.png"
           />
         </a>
       </div>
-      <div id="copyright">
+      <div class="text-right align-top">
         Copyright © <a href="http://outrata.inf.upol.cz">Jan Outrata</a>
       </div>
     </footer>
