@@ -8,9 +8,7 @@ The npm install installs all modules that are listed on package.json file and th
 
 ### `npm start`
 
-Runs the app.
-
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Runs the app. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
 
