@@ -1,5 +1,6 @@
-import {Pie} from './Pie.js';
-import {Point} from './Point.js';
+import {Pie} from './Objects/Pie.js';
+import {Point} from './Objects/Point.js';
+import * as redrawUtils from './Utils/RedrawUtils.js';
 
 // general variables 
 
@@ -30,13 +31,37 @@ const pieRadius = 300;
 let points = [];
 const pointRadius = 3;
 
+// check where user has clicked
+
+function checkCollision() {
+  switch(currentGraph) {
+    case 'point':
+      // code block
+      break;
+    case 'column':
+      // code block
+      break;
+    case 'pie':
+    // code block
+      break;
+    default:
+  } 
+}
+
 // starting function
 
 function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
-  //canvas.addEventListener('mousedown', mouseDown(4, 7, 5, 6), false);
-  canvas.addEventListener('mousedown', mouseDown(4, 7, 18, 16, 31, 23, 8, 12, 41, 4, 7, 18, 16, 31), false);
+  canvas.addEventListener('mousedown', function(evt) {
+    const cRect = canvas.getBoundingClientRect();
+    const canvasX = Math.round(evt.clientX - cRect.left);
+    const canvasY = Math.round(evt.clientY - cRect.top); 
+    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    ctx.fillText("X: "+canvasX+", Y: "+canvasY, 10, 20);
+  });
+  const button = document.querySelector("button");
+  button.addEventListener('click', testingFunction('4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31', '4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31'), false);
 }
 
 window.addEventListener('load', init, false);
@@ -54,12 +79,12 @@ function generateRandomColor() {
 
 // function currently used for testing
 
-function mouseDown(...values) {
+function testingFunction(...values) {
   values = processValues(values);
 
   // legend has to be first, because graph is redrawn
 
-  createGraphLegend('4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31', '4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31');
+  createGraphLegend(...values);
   createGraphOrigin();
   createGraphName('First quater statistics')
   createColumnGraph(values)
@@ -230,11 +255,11 @@ function createGraphLegend(...valueNames) {
 
     if (i % columnLimit == 0)
     {
-      storeCurrentCanvas();
+      redrawUtils.storeCurrentCanvas(ctx);
       currentLegendWidth = 100;
       currentLegendHeight = currentLegendHeight + 50;
       ctx.canvas.height += 50;
-      redrawPreviousCanvas();
+      redrawUtils.redrawPreviousCanvas(ctx);
     }
 
     // draw legend object, text + square
@@ -287,12 +312,4 @@ function highlightPoint(point) {
   ctx.fillStyle = 'red';
   ctx.arc(point.x, point.y, 2 * pointRadius, 0, 2 * Math.PI);
   ctx.fill();
-}
-
-function storeCurrentCanvas() {
-  canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-}
-
-function redrawPreviousCanvas() {
-  ctx.putImageData(canvasData, 0, 0);
 }
