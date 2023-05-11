@@ -1,7 +1,8 @@
 import {Pie} from './Objects/Pie.js';
 import {Point} from './Objects/Point.js';
-import * as graphElementUtils from './Utils/GraphElementsUtils.js';
+import * as elementUtils from './Utils/ElementsUtils.js';
 import * as otherUtils from './Utils/OtherUtils.js';
+import * as graphUtils from './Utils/GraphDrawUtils.js';
 
 // general variables
 
@@ -14,16 +15,12 @@ let currentGraph = '';
 
 let columnWidth = 100;
 let columnLimit = 15;
-let fullAngle = 2 * Math.PI;
 let maxValue = 0;
 let valuesColumns = [];
 
 // pie variables
 
 let pies = [];
-const pieCenterX = 960;
-const pieCenterY = 400;
-const pieRadius = 300;
 let valuesPies = [];
 
 // point + line variables
@@ -96,45 +93,20 @@ function processValues(values) {
 // function currently used for testing
 
 function testingFunction(...values) {
-  
-  processValues(values);
 
   // legend has to be first, because graph is redrawn
-  graphElementUtils.drawGraphLegend(ctx, colors, ...values);
-  graphElementUtils.drawGraphOrigin(ctx);
-  graphElementUtils.drawGraphName(ctx, 'First quater statistics')
-
-  createPieGraph();
-  //createColumnGraph()
+  elementUtils.drawGraphLegend(ctx, colors, ...values);
+  elementUtils.drawGraphOrigin(ctx);
+  elementUtils.drawGraphName(ctx, 'First quater statistics')
+  
+  processValues(values);
+  //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors);
+  createColumnGraph()
   //createPointGraph();
   //createLineGraph();
   //highlightColumn(valuesColumns[0]);
   //highlightPie(pies[0])
   //highlightPoint(points[1]);
-}
-
-//pie graph
-
-function createPieGraph() {
-  let startAngle = 0;
-  let endAngle;
-
-  for (let i = 0; i < valuesSegment.length; i++) {
-    const pie = new Pie(i, startAngle, endAngle, colors[i]);
-    endAngle = startAngle + valuesPies[i] * (Math.PI * 2);
-
-    ctx.beginPath();
-    ctx.moveTo(pieCenterX, pieCenterY);
-    ctx.arc(pieCenterX, pieCenterY, pieRadius, startAngle, endAngle);
-    ctx.closePath();
-    ctx.fillStyle = pie.color;
-    ctx.fill();
-
-    pies[i] = pie;
-    startAngle = endAngle;
-  }
-
-  currentGraph = 'pie';
 }
 
 //column graph
@@ -212,15 +184,6 @@ function createLineGraph() {
   currentGraph = 'line';
 }
 
-// highlighting a column after user input
-
-function highlightColumn(column) {
-  ctx.shadowColor = 'black';
-  ctx.shadowBlur = 30;
-  ctx.fillStyle = column[3];
-  ctx.fillRect(column[0], column[1], columnWidth, column[2]);
-}
-
 // highlighting a part of pie graph after user input
 
 function highlightPie(pie) {
@@ -238,6 +201,15 @@ function highlightPie(pie) {
   ctx.closePath();
   ctx.fillStyle = pie.color;
   ctx.fill();
+}
+
+// highlighting a column after user input
+
+function highlightColumn(column) {
+  ctx.shadowColor = 'black';
+  ctx.shadowBlur = 30;
+  ctx.fillStyle = column[3];
+  ctx.fillRect(column[0], column[1], columnWidth, column[2]);
 }
 
 // highlighting point
