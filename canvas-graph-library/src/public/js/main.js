@@ -8,36 +8,33 @@ import * as graphUtils from './Utils/GraphDrawUtils.js';
 
 let ctx;
 let colors = [];
-let valuesSegment = [];
 let currentGraph = '';
-
-// column variables
-
-let columnWidth = 100;
-let columnLimit = 15;
-let maxValue = 0;
-let valuesColumns = [];
 
 // pie variables
 
 let pies = [];
 let valuesPies = [];
 
+// column variables
+let columnLimit = 15;
+let columns = [];
+let valuesSegment = [];
+
 // point + line variables
-let points = [];
 const pointRadius = 3;
+let points = [];
 
 // check where user has clicked
 
 function checkCollision() {
   switch(currentGraph) {
-    case 'point':
-      // code block
+    case 'pie':
+    // code block
       break;
     case 'column':
-      // code block
+    // code block
       break;
-    case 'pie':
+    case 'point':
     // code block
       break;
     default:
@@ -69,6 +66,7 @@ function processValues(values) {
   // forcing data type to number (want type string because of  graph's legend)
   const total = values.map(Number).reduce((a, b) => a + b, 0);
   const length = values.length;
+  const maxValue = Math.max.apply(Math, values);
 
   // counting width of columns based of the number of columns that user passed to function 
   if (length > columnLimit) {
@@ -77,8 +75,6 @@ function processValues(values) {
 
   // in order to get proper size and lengths of objects that are drawn on canvas, we need to know
   // how big the current drawn object is relative to the biggest object (columns and points) and total (pies) 
-
-  maxValue = Math.max.apply(Math, values);
 
   for (let i = 0; i < length; i++) {
     valuesSegment[i] = values[i] / maxValue;
@@ -94,40 +90,20 @@ function processValues(values) {
 
 function testingFunction(...values) {
 
+  processValues(values);
+
   // legend has to be first, because graph is redrawn
   elementUtils.drawGraphLegend(ctx, colors, ...values);
   elementUtils.drawGraphOrigin(ctx);
   elementUtils.drawGraphName(ctx, 'First quater statistics')
-  
-  processValues(values);
+
   //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors);
-  createColumnGraph()
+  //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors);
   //createPointGraph();
   //createLineGraph();
-  //highlightColumn(valuesColumns[0]);
+  //highlightColumn(columns);
   //highlightPie(pies[0])
   //highlightPoint(points[1]);
-}
-
-//column graph
-
-function createColumnGraph() {
-
-  let xAxisSegment = 1820/(valuesSegment.length + 1);
-  let yAxisSegment = 0;
-
-  for (let i = 0; i < valuesSegment.length; i++) {
-    yAxisSegment = 725 - (650 * valuesSegment[i]);
-    ctx.fillStyle = colors[i];
-
-    ctx.fillRect(xAxisSegment + i * xAxisSegment, yAxisSegment,
-     columnWidth, (650 * valuesSegment[i]) - 1);
-
-    valuesColumns[i] = [xAxisSegment + i * xAxisSegment, yAxisSegment,
-      (650 * valuesSegment[i]) - 1, colors[i]];
-  }
-
-  currentGraph = 'column';
 }
 
 // point graph
