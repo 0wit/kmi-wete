@@ -1,6 +1,8 @@
 import {Pie} from './Objects/Pie.js';
 import {Point} from './Objects/Point.js';
-import * as redrawUtils from './Utils/RedrawUtils.js';
+import * as canvasRedrawUtils from './Utils/CanvasRedrawUtils.js';
+import * as graphElementUtils from './Utils/GraphElementsUtils.js';
+import * as otherUtils from './Utils/OtherUtils.js';
 
 // general variables 
 
@@ -61,21 +63,10 @@ function init() {
     ctx.fillText("X: "+canvasX+", Y: "+canvasY, 10, 20);
   });
   const button = document.querySelector("button");
-  button.addEventListener('click', testingFunction('4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31', '4', '7', '18', '16', '31', '23', '8', '12', '41', '4', '7', '18', '16', '31'), false);
+  button.addEventListener('click', testingFunction('24', '7', '16' , '11'), false);
 }
 
 window.addEventListener('load', init, false);
-
-// generating random colors for graphs
-
-function generateRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
 
 // function currently used for testing
 
@@ -85,26 +76,15 @@ function testingFunction(...values) {
   // legend has to be first, because graph is redrawn
 
   createGraphLegend(...values);
-  createGraphOrigin();
-  createGraphName('First quater statistics')
+  graphElementUtils.drawGraphOrigin(ctx);
+  graphElementUtils.drawGraphName(ctx, 'First quater statistics')
   createColumnGraph(values)
   //createPieGraph(values);
   //createPointGraph(values);
-  //createLineGraph(values)highlightColumn(valuesColumns[0]);
+  //createLineGraph(values)
+  //highlightColumn(valuesColumns[0]);
   //highlightPie(pies[0])
   //highlightPoint(points[1]);
-}
-
-// creates graph origin (not used in pie graph)
-
-function createGraphOrigin() {
-  ctx.beginPath();
-  ctx.moveTo(100, 75);
-  ctx.lineTo(100, 725);
-  ctx.stroke();
-  ctx.lineTo(1820, 725);
-  ctx.stroke();
-  ctx.closePath();
 }
 
 // setting up variables
@@ -126,7 +106,7 @@ function processValues(values) {
 
   for (let i = 0; i < length; i++) {
     valuesSegment[i] = values[i] / maxValue;
-    colors[i] = generateRandomColor();
+    colors[i] = otherUtils.generateRandomColor();
   }
 
   for (let i = 0; i < length; i++) {
@@ -143,12 +123,13 @@ function createPieGraph(values) {
   let endAngle;
 
   for (let i = 0; i < values.length; i++) {
-    endAngle = startAngle + values[i] * fullAngle;
+    const fraction = values[i] / values.reduce((a, b) => a + b, 0);
     const pie = new Pie(i, startAngle, endAngle, colors[i]);
-    
+    endAngle = startAngle + fraction * (Math.PI * 2);
+
     ctx.beginPath();
-    ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
-    ctx.lineTo(pieCenterX, pieCenterY);
+    ctx.moveTo(pieCenterX, pieCenterY);
+    ctx.arc(pieCenterX, pieCenterY, pieRadius, startAngle, endAngle);
     ctx.closePath();
     ctx.fillStyle = pie.color;
     ctx.fill();
@@ -235,13 +216,6 @@ function createLineGraph(values) {
   currentGraph = 'line';
 }
 
-// graph name
-
-function createGraphName(name) {
-  ctx.font = '30px Arial';
-  ctx.fillText(name, 760, 50); 
-}
-
 // graph legend (TODO add lines)
 
 function createGraphLegend(...valueNames) {
@@ -255,11 +229,11 @@ function createGraphLegend(...valueNames) {
 
     if (i % columnLimit == 0)
     {
-      redrawUtils.storeCurrentCanvas(ctx);
+      canvasRedrawUtils.storeCurrentCanvas(ctx);
       currentLegendWidth = 100;
       currentLegendHeight = currentLegendHeight + 50;
       ctx.canvas.height += 50;
-      redrawUtils.redrawPreviousCanvas(ctx);
+      canvasRedrawUtils.redrawPreviousCanvas(ctx);
     }
 
     // draw legend object, text + square
