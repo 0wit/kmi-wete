@@ -1,6 +1,5 @@
 import {Pie} from './Objects/Pie.js';
 import {Point} from './Objects/Point.js';
-import * as canvasRedrawUtils from './Utils/CanvasRedrawUtils.js';
 import * as graphElementUtils from './Utils/GraphElementsUtils.js';
 import * as otherUtils from './Utils/OtherUtils.js';
 
@@ -75,7 +74,7 @@ function testingFunction(...values) {
 
   // legend has to be first, because graph is redrawn
 
-  createGraphLegend(...values);
+  graphElementUtils.drawGraphLegend(ctx, colors, ...values);
   graphElementUtils.drawGraphOrigin(ctx);
   graphElementUtils.drawGraphName(ctx, 'First quater statistics')
   createColumnGraph(values)
@@ -214,41 +213,6 @@ function createLineGraph(values) {
   }
 
   currentGraph = 'line';
-}
-
-// graph legend (TODO add lines)
-
-function createGraphLegend(...valueNames) {
-
-  let currentLegendWidth = 100;
-  let currentLegendHeight = 710;
-
-  for (let i = 0; i < valueNames.length; i++) {
-
-    // when number of objects is too high, store current canvas, make new one, taller and then redraw everything
-
-    if (i % columnLimit == 0)
-    {
-      canvasRedrawUtils.storeCurrentCanvas(ctx);
-      currentLegendWidth = 100;
-      currentLegendHeight = currentLegendHeight + 50;
-      ctx.canvas.height += 50;
-      canvasRedrawUtils.redrawPreviousCanvas(ctx);
-    }
-
-    // draw legend object, text + square
-
-    ctx.beginPath();
-    ctx.rect(currentLegendWidth, currentLegendHeight, 10, 10);
-    ctx.fillStyle = colors[i];
-    ctx.fill(); 
-    ctx.strokeRect(currentLegendWidth, currentLegendHeight, 11, 11);
-    ctx.stroke();
-    ctx.font = '10px Arial';
-    ctx.fillStyle = '#000000';
-    ctx.fillText(valueNames[i], currentLegendWidth + 15, currentLegendHeight + 10);
-    currentLegendWidth += 120; 
-  }
 }
 
 // highlighting a column after user input
