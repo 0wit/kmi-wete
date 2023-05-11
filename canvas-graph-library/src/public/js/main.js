@@ -1,48 +1,29 @@
-import {Pie} from './Objects/Pie.js';
-import {Point} from './Objects/Point.js';
 import * as elementUtils from './Utils/ElementsUtils.js';
 import * as otherUtils from './Utils/OtherUtils.js';
 import * as graphUtils from './Utils/GraphDrawUtils.js';
 
 // general variables
-
 let ctx;
 let colors = [];
 let currentGraph = '';
 
 // pie variables
-
 let pies = [];
 let valuesPies = [];
 
 // column variables
-let columnLimit = 15;
 let columns = [];
 let valuesSegment = [];
+let columnLimit = 15;
 
 // point + line variables
-const pointRadius = 3;
 let points = [];
+const pointRadius = 3;
 
-// check where user has clicked
-
-function checkCollision() {
-  switch(currentGraph) {
-    case 'pie':
-    // code block
-      break;
-    case 'column':
-    // code block
-      break;
-    case 'point':
-    // code block
-      break;
-    default:
-  } 
-}
 
 // starting function
 
+window.addEventListener('load', init, false);
 function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
@@ -56,8 +37,6 @@ function init() {
   const button = document.querySelector("button");
   button.addEventListener('click', testingFunction('24', '7', '16' , '11'), false);
 }
-
-window.addEventListener('load', init, false);
 
 // setting up variables
 
@@ -99,65 +78,28 @@ function testingFunction(...values) {
 
   //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors);
   //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors);
-  //createPointGraph();
-  //createLineGraph();
+  //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
+  points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
   //highlightColumn(columns);
   //highlightPie(pies[0])
   //highlightPoint(points[1]);
 }
 
-// point graph
+// check where user has clicked
 
-function createPointGraph() {
-
-  let xAxisSegment = 1820/(valuesSegment.length + 1);
-  let yAxisSegment = 0;
-
-  for (let i = 0; i < valuesSegment.length; i++) {
-    yAxisSegment = 725 - (650 * valuesSegment[i]);
-    const point = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
-
-    ctx.beginPath();
-    ctx.arc(point.x, point.y, pointRadius, 0, 2 * Math.PI);
-    ctx.fill();
-
-    points[i] = point;
-  }
-
-  currentGraph = 'point';
-}
-
-// line graph
-
-function createLineGraph() {
-
-  let xAxisSegment = 1820/(valuesSegment.length + 1);
-  let yAxisSegment = 725 - (650 * valuesSegment[0]);
-  ctx.beginPath();
-  ctx.arc(xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
-  ctx.fill();
-
-  const point = new Point(0, xAxisSegment, yAxisSegment);
-  points[0] = point;
-
-  for (let i = 1; i < valuesSegment.length; i++) {
-
-    yAxisSegment = 725 - (650 * valuesSegment[i]);
-    const currentPoint = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
-    const previousPoint = points[i-1];
-
-    ctx.beginPath();
-    ctx.arc(currentPoint.x, currentPoint.y, pointRadius, 0, 2 * Math.PI);
-    ctx.fill();
-
-    ctx.moveTo(previousPoint.x, previousPoint.y);
-    ctx.lineTo(currentPoint.x, currentPoint.y);
-    ctx.stroke();
-
-    points[i] = currentPoint;
-  }
-
-  currentGraph = 'line';
+function checkCollision() {
+  switch(currentGraph) {
+    case 'pie':
+    // code block
+      break;
+    case 'column':
+    // code block
+      break;
+    case 'point':
+    // code block
+      break;
+    default:
+  } 
 }
 
 // highlighting a part of pie graph after user input
