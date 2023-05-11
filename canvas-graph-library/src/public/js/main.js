@@ -67,29 +67,11 @@ function init() {
 
 window.addEventListener('load', init, false);
 
-// function currently used for testing
-
-function testingFunction(...values) {
-  values = processValues(values);
-
-  // legend has to be first, because graph is redrawn
-
-  graphElementUtils.drawGraphLegend(ctx, colors, ...values);
-  graphElementUtils.drawGraphOrigin(ctx);
-  graphElementUtils.drawGraphName(ctx, 'First quater statistics')
-  createColumnGraph(values)
-  //createPieGraph(values);
-  //createPointGraph(values);
-  //createLineGraph(values)
-  //highlightColumn(valuesColumns[0]);
-  //highlightPie(pies[0])
-  //highlightPoint(points[1]);
-}
-
 // setting up variables
 
 function processValues(values) {
-  total = values.reduce((a, b) => a + b, 0);
+
+  total = values.map(Number).reduce((a, b) => a + b, 0);
   length = values.length;
 
   // counting width of columns based of the number of columns that user passed to function 
@@ -111,8 +93,28 @@ function processValues(values) {
   for (let i = 0; i < length; i++) {
     values[i] = values[i] / total;
   }
-  
+
   return values;
+}
+
+// function currently used for testing
+
+function testingFunction(...values) {
+
+  // legend has to be first, because graph is redrawn
+
+  graphElementUtils.drawGraphLegend(ctx, colors, ...values);
+  graphElementUtils.drawGraphOrigin(ctx);
+  graphElementUtils.drawGraphName(ctx, 'First quater statistics')
+
+  values = processValues(values);
+  createPieGraph(values);
+  //createColumnGraph()
+  //createPointGraph();
+  //createLineGraph();
+  //highlightColumn(valuesColumns[0]);
+  //highlightPie(pies[0])
+  //highlightPoint(points[1]);
 }
 
 //pie graph
@@ -121,10 +123,10 @@ function createPieGraph(values) {
   let startAngle = 0;
   let endAngle;
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < valuesSegment.length; i++) {
     const fraction = values[i] / values.reduce((a, b) => a + b, 0);
     const pie = new Pie(i, startAngle, endAngle, colors[i]);
-    endAngle = startAngle + fraction * (Math.PI * 2);
+    endAngle = startAngle + values[i] * (Math.PI * 2);
 
     ctx.beginPath();
     ctx.moveTo(pieCenterX, pieCenterY);
@@ -142,12 +144,12 @@ function createPieGraph(values) {
 
 //column graph
 
-function createColumnGraph(values) {
+function createColumnGraph() {
 
-  let xAxisSegment = 1820/(values.length + 1);
+  let xAxisSegment = 1820/(valuesSegment.length + 1);
   let yAxisSegment = 0;
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < valuesSegment.length; i++) {
     yAxisSegment = 725 - (650 * valuesSegment[i]);
     ctx.fillStyle = colors[i];
 
@@ -163,12 +165,12 @@ function createColumnGraph(values) {
 
 // point graph
 
-function createPointGraph(values) {
+function createPointGraph() {
 
-  let xAxisSegment = 1820/(values.length + 1);
+  let xAxisSegment = 1820/(valuesSegment.length + 1);
   let yAxisSegment = 0;
 
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < valuesSegment.length; i++) {
     yAxisSegment = 725 - (650 * valuesSegment[i]);
     const point = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
 
@@ -184,9 +186,9 @@ function createPointGraph(values) {
 
 // line graph
 
-function createLineGraph(values) {
+function createLineGraph() {
 
-  let xAxisSegment = 1820/(values.length + 1);
+  let xAxisSegment = 1820/(valuesSegment.length + 1);
   let yAxisSegment = 725 - (650 * valuesSegment[0]);
   ctx.beginPath();
   ctx.arc(xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
@@ -195,7 +197,7 @@ function createLineGraph(values) {
   const point = new Point(0, xAxisSegment, yAxisSegment);
   points[0] = point;
 
-  for (let i = 1; i < values.length; i++) {
+  for (let i = 1; i < valuesSegment.length; i++) {
 
     yAxisSegment = 725 - (650 * valuesSegment[i]);
     const currentPoint = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
