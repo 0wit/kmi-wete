@@ -3,15 +3,12 @@ import {Point} from './Objects/Point.js';
 import * as graphElementUtils from './Utils/GraphElementsUtils.js';
 import * as otherUtils from './Utils/OtherUtils.js';
 
-// general variables 
+// general variables
 
-let total = 0;
-let length = 0;
+let ctx;
 let colors = [];
 let valuesSegment = [];
-let ctx;
 let currentGraph = '';
-let canvasData;
 
 // column variables
 
@@ -27,6 +24,7 @@ let pies = [];
 const pieCenterX = 960;
 const pieCenterY = 400;
 const pieRadius = 300;
+let valuesPies = [];
 
 // point + line variables
 let points = [];
@@ -71,11 +69,11 @@ window.addEventListener('load', init, false);
 
 function processValues(values) {
 
-  total = values.map(Number).reduce((a, b) => a + b, 0);
-  length = values.length;
+  // forcing data type to number (want type string because of  graph's legend)
+  const total = values.map(Number).reduce((a, b) => a + b, 0);
+  const length = values.length;
 
   // counting width of columns based of the number of columns that user passed to function 
-
   if (length > columnLimit) {
     columnWidth = columnWidth/Math.floor((length / columnLimit) + 1);
   }
@@ -91,24 +89,22 @@ function processValues(values) {
   }
 
   for (let i = 0; i < length; i++) {
-    values[i] = values[i] / total;
+    valuesPies[i] = values[i] / total;
   }
-
-  return values;
 }
 
 // function currently used for testing
 
 function testingFunction(...values) {
+  
+  processValues(values);
 
   // legend has to be first, because graph is redrawn
-
   graphElementUtils.drawGraphLegend(ctx, colors, ...values);
   graphElementUtils.drawGraphOrigin(ctx);
   graphElementUtils.drawGraphName(ctx, 'First quater statistics')
 
-  values = processValues(values);
-  createPieGraph(values);
+  createPieGraph();
   //createColumnGraph()
   //createPointGraph();
   //createLineGraph();
@@ -119,14 +115,13 @@ function testingFunction(...values) {
 
 //pie graph
 
-function createPieGraph(values) {
+function createPieGraph() {
   let startAngle = 0;
   let endAngle;
 
   for (let i = 0; i < valuesSegment.length; i++) {
-    const fraction = values[i] / values.reduce((a, b) => a + b, 0);
     const pie = new Pie(i, startAngle, endAngle, colors[i]);
-    endAngle = startAngle + values[i] * (Math.PI * 2);
+    endAngle = startAngle + valuesPies[i] * (Math.PI * 2);
 
     ctx.beginPath();
     ctx.moveTo(pieCenterX, pieCenterY);
