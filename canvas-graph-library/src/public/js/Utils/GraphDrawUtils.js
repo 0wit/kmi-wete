@@ -1,5 +1,6 @@
 import {Pie} from '../Objects/Pie.js';
 import {Point} from '../Objects/Point.js';
+import {Column} from '../Objects/Column.js';
 
 // drawing the pie graph type
 
@@ -36,7 +37,7 @@ export function drawPieGraph(ctx, valuesPies, colors) {
 
 export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
 
-    let xAxisSegment = 1750/(valuesSegment.length + 1);
+    let xAxisSegment = 1710/valuesSegment.length;
     let yAxisSegment = 0;
     let columns = []
   
@@ -44,10 +45,10 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
       yAxisSegment = 725 - (650 * valuesSegment[i]);
       ctx.fillStyle = colors[i];
   
-      ctx.fillRect(80 + (i + 1) * xAxisSegment, yAxisSegment,
-       columnWidth, (650 * valuesSegment[i]) - 1);
+      ctx.fillRect(110 + i * xAxisSegment, yAxisSegment,
+       columnWidth, (650 * valuesSegment[i]) - 1); //-1 is for the y line of graph
   
-       columns[i] = [xAxisSegment + i * xAxisSegment, yAxisSegment,
+       columns[i] = [(i + 1) * xAxisSegment, yAxisSegment,
         (650 * valuesSegment[i]) - 1, colors[i]];
     }
   
@@ -58,7 +59,7 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
 
 // drawing the point graph type
 
-export function drawPointGraph(ctx, valuesSegment, pointRadius) {
+export function drawPointGraph(ctx, valuesSegment, pointRadius) {y
 
     let xAxisSegment = 1820/(valuesSegment.length + 1);
     let yAxisSegment = 0;
