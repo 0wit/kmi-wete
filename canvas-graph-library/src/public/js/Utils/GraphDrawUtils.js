@@ -34,11 +34,9 @@ export function drawPieGraph(ctx, valuesPies, colors) {
 
 // drawing the column graph type
 
-let columnWidth = 100;
+export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
 
-export function drawColumnGraph(ctx, valuesSegment, colors) {
-
-    let xAxisSegment = 1820/(valuesSegment.length + 1);
+    let xAxisSegment = 1750/(valuesSegment.length + 1);
     let yAxisSegment = 0;
     let columns = []
   
@@ -46,7 +44,7 @@ export function drawColumnGraph(ctx, valuesSegment, colors) {
       yAxisSegment = 725 - (650 * valuesSegment[i]);
       ctx.fillStyle = colors[i];
   
-      ctx.fillRect(xAxisSegment + i * xAxisSegment, yAxisSegment,
+      ctx.fillRect(80 + (i + 1) * xAxisSegment, yAxisSegment,
        columnWidth, (650 * valuesSegment[i]) - 1);
   
        columns[i] = [xAxisSegment + i * xAxisSegment, yAxisSegment,

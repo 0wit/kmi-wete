@@ -1,3 +1,4 @@
+import {Pie} from './Objects/Pie.js';
 import * as elementUtils from './Utils/ElementsUtils.js';
 import * as otherUtils from './Utils/OtherUtils.js';
 import * as graphUtils from './Utils/GraphDrawUtils.js';
@@ -10,11 +11,15 @@ let currentGraph = '';
 // pie variables
 let pies = [];
 let valuesPies = [];
+const pieCenterX = 960;
+const pieCenterY = 400;
+const pieRadius = 300;
 
 // column variables
 let columns = [];
 let valuesSegment = [];
 let columnLimit = 15;
+let columnWidth = 100;
 
 // point + line variables
 let points = [];
@@ -35,7 +40,7 @@ function init() {
     ctx.fillText("X: "+canvasX+", Y: "+canvasY, 10, 20);
   });
   const button = document.querySelector("button");
-  button.addEventListener('click', testingFunction('24', '7', '16' , '11'), false);
+  button.addEventListener('click', testingFunction('24', '7', '16' , '11', '24', '7', '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '24', '7', '16' , '11', '24', '7', '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '24', '7', '16' , '11', '24', '7', '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '24', '7', '16' , '11', '24', '7', '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6, '16' , '11','24', '7', '16' , '11', '3', 8, 5, 6), false);
 }
 
 // setting up variables
@@ -77,11 +82,11 @@ function testingFunction(...values) {
   elementUtils.drawGraphName(ctx, 'First quater statistics')
 
   //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors);
-  //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors);
+  columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
   //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
-  points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
-  //highlightColumn(columns);
+  //points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
   //highlightPie(pies[0])
+  //highlightColumn(columns[0]);
   //highlightPoint(points[1]);
 }
 
