@@ -50,10 +50,8 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
       height = (650 * valuesSegment[i]) - 1;      
       ctx.fillStyle = colors[i];  
       ctx.fillRect(topLeftCornerX, topLeftCornerY, columnWidth, height); //-1 is for the y line of graph
-      columns[i] = new Column(topLeftCornerX, topLeftCornerX + columnWidth, topLeftCornerY, topLeftCornerY + height, false);
+      columns[i] = new Column(topLeftCornerX, topLeftCornerY, columnWidth, height, colors[i], false);
     }
-  
-    //currentGraph = 'column';
 
     return columns;
 }
@@ -76,8 +74,6 @@ export function drawPointGraph(ctx, valuesSegment, pointRadius) {y
   
       points[i] = point;
     }
-  
-    //currentGraph = 'point';
 
     return points;
 }
@@ -113,8 +109,6 @@ export function drawLineGraph(ctx, valuesSegment, pointRadius) {
   
       points[i] = currentPoint;
     }
-  
-    //currentGraph = 'line';
 
     return points;
   }

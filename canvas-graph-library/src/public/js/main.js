@@ -1,11 +1,14 @@
 import * as elementUtils from './Utils/ElementsUtils.js';
 import * as otherUtils from './Utils/OtherUtils.js';
 import * as graphUtils from './Utils/GraphDrawUtils.js';
+import * as highlightUtils from './Utils/HighlightUtils.js';
+import * as collisionUtils from './Utils/CollisionUtils.js';
+
 
 // general variables
 let ctx;
 let colors = [];
-let currentGraph = '';
+let currentGraph = 'column';
 
 // pie variables
 let pies = [];
@@ -35,8 +38,7 @@ function init() {
     const cRect = canvas.getBoundingClientRect();
     const canvasX = Math.round(evt.clientX - cRect.left);
     const canvasY = Math.round(evt.clientY - cRect.top); 
-    ctx.clearRect(0, 0, canvas.width, canvas.height); 
-    ctx.fillText("X: "+canvasX+", Y: "+canvasY, 10, 20);
+    checkCollisions(canvasX, canvasY);
   });
   const button = document.querySelector("button");
   //button.addEventListener('click', testingFunction('24', '7', '16' , '11', '24', '7', '16', '24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16', '24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16'), false);
@@ -86,26 +88,27 @@ function testingFunction(...values) {
   //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
   //points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
   //highlightPie(pies[0])
-  //highlightColumn(columns[0]);
+  //highlightUtils.highlightColumn(ctx, columns[0], colors[0]);
   //highlightPoint(points[1]);
 }
 
 // check where user has clicked
 
-function checkCollision() {
+function checkCollisions(x, y) {
   switch(currentGraph) {
-    case 'pie':
-    // code block
-      break;
-    case 'column':
-    // code block
-      break;
-    case 'point':
-    // code block
-      break;
-    default:
-  } 
+      case 'pie':
+      // code block
+        break;
+      case 'column':
+        collisionUtils.checkColumns(x, y, columns);
+        break;
+      case 'point':
+      // code block
+        break;
+      default:
+    } 
 }
+
 
 // highlighting a part of pie graph after user input
 
@@ -124,15 +127,6 @@ function highlightPie(pie) {
   ctx.closePath();
   ctx.fillStyle = pie.color;
   ctx.fill();
-}
-
-// highlighting a column after user input
-
-function highlightColumn(column) {
-  ctx.shadowColor = 'black';
-  ctx.shadowBlur = 30;
-  ctx.fillStyle = column[3];
-  ctx.fillRect(column[0], column[1], columnWidth, column[2]);
 }
 
 // highlighting point

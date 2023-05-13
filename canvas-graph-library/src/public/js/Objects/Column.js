@@ -1,9 +1,10 @@
 export class Column {
-    constructor(xStart, xEnd, yStart, yEnd, highlighted) {
-        this.xStart = xStart;
-        this.xEnd = xEnd;
-        this.yStart = yStart;
-        this.yEnd = yEnd;
+    constructor(x, y, width, height, color, highlighted) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
         this.highlighted = highlighted;
     }
 }
