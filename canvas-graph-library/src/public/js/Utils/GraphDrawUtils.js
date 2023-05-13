@@ -38,18 +38,19 @@ export function drawPieGraph(ctx, valuesPies, colors) {
 export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
 
     let xAxisSegment = 1710/valuesSegment.length;
-    let yAxisSegment = 0;
-    let columns = []
+    let columns = [];
+    let topLeftCornerX;
+    let topLeftCornerY;
+    let height;
   
     for (let i = 0; i < valuesSegment.length; i++) {
-      yAxisSegment = 725 - (650 * valuesSegment[i]);
-      ctx.fillStyle = colors[i];
-  
-      ctx.fillRect(110 + i * xAxisSegment, yAxisSegment,
-       columnWidth, (650 * valuesSegment[i]) - 1); //-1 is for the y line of graph
-  
-       columns[i] = [(i + 1) * xAxisSegment, yAxisSegment,
-        (650 * valuesSegment[i]) - 1, colors[i]];
+
+      topLeftCornerX = 125 + i * xAxisSegment;
+      topLeftCornerY = 725 - (650 * valuesSegment[i]);
+      height = (650 * valuesSegment[i]) - 1;      
+      ctx.fillStyle = colors[i];  
+      ctx.fillRect(topLeftCornerX, topLeftCornerY, columnWidth, height); //-1 is for the y line of graph
+      columns[i] = new Column(topLeftCornerX, topLeftCornerX + columnWidth, topLeftCornerY, topLeftCornerY + height, false);
     }
   
     //currentGraph = 'column';
