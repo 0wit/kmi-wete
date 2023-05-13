@@ -34,10 +34,11 @@ window.addEventListener('load', init, false);
 function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
-  canvas.addEventListener('mousedown', function(evt) {
+  canvas.addEventListener('click', function(evt) {
     const cRect = canvas.getBoundingClientRect();
     const canvasX = Math.round(evt.clientX - cRect.left);
-    const canvasY = Math.round(evt.clientY - cRect.top); 
+    const canvasY = Math.round(evt.clientY - cRect.top);
+    console.log(cRect.left+ "+"+ cRect.top) 
     checkCollisions(canvasX, canvasY);
   });
   const button = document.querySelector("button");
