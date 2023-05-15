@@ -34,10 +34,13 @@ window.addEventListener('load', init, false);
 function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
-  canvas.addEventListener('click', function(evt) {
+  canvas.addEventListener('click', function(evt) {    
+
     const cRect = canvas.getBoundingClientRect();
-    const canvasX = Math.round(evt.clientX - cRect.left);
-    const canvasY = Math.round(evt.clientY - cRect.top);
+    const scaleX = canvas.width / cRect.width;    // relationship bitmap vs. element for x
+    const scaleY = canvas.height / cRect.height;  // relationship bitmap vs. element for y
+    const canvasX = Math.round((evt.clientX - cRect.left) * scaleX);
+    const canvasY = Math.round((evt.clientY - cRect.top) * scaleY);
     console.log(cRect.left+ "+"+ cRect.top) 
     checkCollisions(canvasX, canvasY);
   });
