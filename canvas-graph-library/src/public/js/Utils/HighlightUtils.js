@@ -12,7 +12,8 @@ export function highlightColumn(ctx, column) {
 // highlighting a part of pie graph after user input
 
 export function highlightPie(ctx, pie, pieCenterX, pieCenterY, pieRadius) {
-  
+  ctx.save();
+
   ctx.beginPath();
   ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
   ctx.lineTo(pieCenterX, pieCenterY);
@@ -21,9 +22,13 @@ export function highlightPie(ctx, pie, pieCenterX, pieCenterY, pieRadius) {
   ctx.fill();
 
   ctx.beginPath();
-  ctx.arc(pieCenterX + 20, pieCenterY + 20, pieRadius, pie.startAngle, pie.endAngle);
+  ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
   ctx.lineTo(pieCenterX, pieCenterY);
   ctx.closePath();
-  ctx.fillStyle = pie.color;
+  ctx.fillStyle = 'red';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)'; // Set shadow color
+  ctx.shadowBlur = 50; // Set shadow blur radius
   ctx.fill();
+
+  ctx.restore();
 }

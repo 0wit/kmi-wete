@@ -95,7 +95,6 @@ function testingFunction(...values) {
   //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
   //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
   //points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
-  highlightUtils.highlightPie(ctx, pies[0], pieCenterX, pieCenterY, pieRadius)
   //highlightUtils.highlightColumn(ctx, columns[0], colors[0]);
   //highlightPoint(points[1]);
 }
@@ -106,7 +105,17 @@ function checkCollisions(x, y) {
   switch(currentGraph) {
       case 'pie':
         const pieIndex = collisionUtils.checkPies(x, y, pies, pieCenterX, pieCenterY, pieRadius);
-        console.log(pieIndex);
+        if (pieIndex != "none") {
+          console.log(pieIndex);
+          pies[pieIndex].highlighted = !pies[pieIndex].highlighted;
+          if (pies[pieIndex].highlighted) {
+            highlightUtils.highlightPie(ctx, pies[pieIndex], pieCenterX, pieCenterY, pieRadius)
+          }
+          else {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            pies = graphUtils.drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pieRadius);
+          }
+        }
         break;
       case 'column':
         const columnIndex = collisionUtils.checkColumns(x, y, columns);

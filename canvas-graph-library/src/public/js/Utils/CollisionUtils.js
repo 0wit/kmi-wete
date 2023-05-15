@@ -23,7 +23,6 @@ function isInPie(x, y, pie, pieCenterX, pieCenterY) {
 export function checkPies(x, y, pies, pieCenterX, pieCenterY, pieRadius) {
     for (let i = 0; i < pies.length; i++) {
       const pie = pies[i];
-      console.log(Math.sqrt(Math.pow(x - pieCenterX, 2) + Math.pow(y - pieCenterY, 2)) <= pieRadius);
       if (Math.sqrt(Math.pow(x - pieCenterX, 2) + Math.pow(y - pieCenterY, 2)) <= pieRadius && isInPie(x, y, pie, pieCenterX, pieCenterY)) {
         return i;
       }

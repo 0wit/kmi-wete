@@ -11,7 +11,7 @@ export function drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pi
   
     for (let i = 0; i < valuesPies.length; i++) {
       endAngle = startAngle + valuesPies[i] * (Math.PI * 2);
-      const pie = new Pie(i, startAngle, endAngle, colors[i]);
+      const pie = new Pie(i, startAngle, endAngle, colors[i], false);
   
       ctx.beginPath();
       ctx.moveTo(pieCenterX, pieCenterY);
