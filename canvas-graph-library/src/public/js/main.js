@@ -8,7 +8,7 @@ import * as collisionUtils from './Utils/CollisionUtils.js';
 // general variables
 let ctx;
 let colors = [];
-let currentGraph = 'pie';
+let currentGraph = 'point';
 
 // pie variables
 let pies = [];
@@ -25,7 +25,7 @@ let columnWidth = 100;
 
 // point + line variables
 let points = [];
-const pointRadius = 3;
+const pointRadius = 4;
 
 
 // starting function
@@ -89,14 +89,12 @@ function drawGraphicsElements(...values) {
 function testingFunction(...values) {
 
   processValues(values);
-  //drawGraphicsElements(...values)
+  drawGraphicsElements(...values)
 
-  pies = graphUtils.drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pieRadius);
+  //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pieRadius);
   //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
-  //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
+  points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius, colors);
   //points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
-  //highlightUtils.highlightColumn(ctx, columns[0], colors[0]);
-  //highlightPoint(points[1]);
 }
 
 // check where user has clicked
@@ -131,17 +129,19 @@ function checkCollisions(x, y) {
         }
         break;
       case 'point':
-      // code block
+        const pointIndex = collisionUtils.checkPoints(x, y, points, pointRadius);
+        console.log(pointIndex);
+        if (pointIndex != "none") {
+          points[pointIndex].highlighted = !points[pointIndex].highlighted;
+          if (points[pointIndex].highlighted) {
+            highlightUtils.highlightPoint(ctx, points[pointIndex], pointRadius);
+          }
+          else {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius, colors);
+          }
+        }
         break;
       default:
     } 
-}
-
-// highlighting point
-
-function highlightPoint(point) {
-  ctx.beginPath();
-  ctx.fillStyle = 'red';
-  ctx.arc(point.x, point.y, 2 * pointRadius, 0, 2 * Math.PI);
-  ctx.fill();
 }

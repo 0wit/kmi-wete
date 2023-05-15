@@ -54,7 +54,7 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
 
 // drawing the point graph type
 
-export function drawPointGraph(ctx, valuesSegment, pointRadius) {y
+export function drawPointGraph(ctx, valuesSegment, pointRadius, colors) {
 
     let xAxisSegment = 1820/(valuesSegment.length + 1);
     let yAxisSegment = 0;
@@ -62,10 +62,11 @@ export function drawPointGraph(ctx, valuesSegment, pointRadius) {y
   
     for (let i = 0; i < valuesSegment.length; i++) {
       yAxisSegment = 725 - (650 * valuesSegment[i]);
-      const point = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
+      const point = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment, false);
   
       ctx.beginPath();
       ctx.arc(point.x, point.y, pointRadius, 0, 2 * Math.PI);
+      ctx.fillStyle = colors[i];
       ctx.fill();
   
       points[i] = point;

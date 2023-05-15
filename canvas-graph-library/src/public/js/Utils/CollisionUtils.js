@@ -29,3 +29,13 @@ export function checkPies(x, y, pies, pieCenterX, pieCenterY, pieRadius) {
     }
     return "none";
 }
+
+export function checkPoints(x, y, points, pointRadius) {
+  for (let i = 0; i < points.length; i++) {
+    const point = points[i];
+    if (Math.sqrt(Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2)) <= pointRadius * 2) {
+      return i;
+    }
+  }
+  return "none";
+}

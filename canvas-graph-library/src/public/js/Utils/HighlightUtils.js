@@ -32,3 +32,12 @@ export function highlightPie(ctx, pie, pieCenterX, pieCenterY, pieRadius) {
 
   ctx.restore();
 }
+
+// highlighting point
+
+export function highlightPoint(ctx, point, pointRadius) {
+  ctx.beginPath();
+  ctx.fillStyle = 'red';
+  ctx.arc(point.x, point.y, 1.5 * pointRadius, 0, 2 * Math.PI);
+  ctx.fill();
+}
