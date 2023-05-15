@@ -49,7 +49,6 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
       topLeftCornerY = 725 - (650 * valuesSegment[i]);
       height = (650 * valuesSegment[i]) - 1;      
       ctx.fillStyle = colors[i]; 
-      console.log("column x:" + topLeftCornerX); 
       ctx.fillRect(topLeftCornerX, topLeftCornerY, columnWidth, height); //-1 is for the y line of graph
       columns[i] = new Column(topLeftCornerX, topLeftCornerY, columnWidth, height, colors[i], false);
     }

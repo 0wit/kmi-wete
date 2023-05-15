@@ -34,16 +34,17 @@ window.addEventListener('load', init, false);
 function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
-  canvas.addEventListener('click', function(evt) {    
 
+  // listening for mouse click for higlighting values
+  canvas.addEventListener('click', function(evt) {
     const cRect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / cRect.width;    // relationship bitmap vs. element for x
     const scaleY = canvas.height / cRect.height;  // relationship bitmap vs. element for y
     const canvasX = Math.round((evt.clientX - cRect.left) * scaleX);
     const canvasY = Math.round((evt.clientY - cRect.top) * scaleY);
-    console.log(cRect.left+ "+"+ cRect.top) 
     checkCollisions(canvasX, canvasY);
   });
+
   const button = document.querySelector("button");
   //button.addEventListener('click', testingFunction('24', '7', '16' , '11', '24', '7', '16', '24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16', '24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16'), false);
   button.addEventListener('click', testingFunction('24', '7', '16' , '11', '24', '7'), false);
@@ -91,6 +92,7 @@ function testingFunction(...values) {
   columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
   //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
   //points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
+  //highlightUtils.highlightColumn(columns[0]);
   //highlightPie(pies[0])
   //highlightUtils.highlightColumn(ctx, columns[0], colors[0]);
   //highlightPoint(points[1]);
@@ -104,7 +106,17 @@ function checkCollisions(x, y) {
       // code block
         break;
       case 'column':
-        collisionUtils.checkColumns(x, y, columns);
+        const columnIndex = collisionUtils.checkColumns(x, y, columns);
+        if (columnIndex != "none") {
+          columns[columnIndex].highlighted = !columns[columnIndex].highlighted;
+          if (columns[columnIndex].highlighted) {
+            highlightUtils.highlightColumn(ctx, columns[columnIndex]);
+          }
+          else {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
+          }
+        }
         break;
       case 'point':
       // code block
