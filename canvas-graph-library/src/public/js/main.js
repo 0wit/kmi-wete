@@ -105,8 +105,8 @@ function testingFunction(...values) {
 function checkCollisions(x, y) {
   switch(currentGraph) {
       case 'pie':
-        const pieIndex = collisionUtils.checkPies(x, y, pies);
-
+        const pieIndex = collisionUtils.checkPies(x, y, pies, pieCenterX, pieCenterY, pieRadius);
+        console.log(pieIndex);
         break;
       case 'column':
         const columnIndex = collisionUtils.checkColumns(x, y, columns);
