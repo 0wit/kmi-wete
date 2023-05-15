@@ -8,7 +8,7 @@ import * as collisionUtils from './Utils/CollisionUtils.js';
 // general variables
 let ctx;
 let colors = [];
-let currentGraph = 'column';
+let currentGraph = 'pie';
 
 // pie variables
 let pies = [];
@@ -79,21 +79,23 @@ function processValues(values) {
 
 // function currently used for testing
 
+function drawGraphicsElements(...values) {
+  // legend has to be drawn first, because graph is redrawn
+  elementUtils.drawGraphLegend(ctx, colors, ...values);
+  elementUtils.drawGraphOrigin(ctx);
+  elementUtils.drawGraphName(ctx, 'First quater statistics')  
+}
+
 function testingFunction(...values) {
 
   processValues(values);
+  //drawGraphicsElements(...values)
 
-  // legend has to be first, because graph is redrawn
-  elementUtils.drawGraphLegend(ctx, colors, ...values);
-  elementUtils.drawGraphOrigin(ctx);
-  elementUtils.drawGraphName(ctx, 'First quater statistics')
-
-  //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors);
-  columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
+  pies = graphUtils.drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pieRadius);
+  //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
   //points = graphUtils.drawPointGraph(ctx, valuesSegment, pointRadius);
   //points = graphUtils.drawLineGraph(ctx, valuesSegment, pointRadius);
-  //highlightUtils.highlightColumn(columns[0]);
-  //highlightPie(pies[0])
+  highlightUtils.highlightPie(ctx, pies[0], pieCenterX, pieCenterY, pieRadius)
   //highlightUtils.highlightColumn(ctx, columns[0], colors[0]);
   //highlightPoint(points[1]);
 }
@@ -103,7 +105,8 @@ function testingFunction(...values) {
 function checkCollisions(x, y) {
   switch(currentGraph) {
       case 'pie':
-      // code block
+        const pieIndex = collisionUtils.checkPies(x, y, pies);
+
         break;
       case 'column':
         const columnIndex = collisionUtils.checkColumns(x, y, columns);
@@ -123,26 +126,6 @@ function checkCollisions(x, y) {
         break;
       default:
     } 
-}
-
-
-// highlighting a part of pie graph after user input
-
-function highlightPie(pie) {
-  
-  ctx.beginPath();
-  ctx.arc(pieCenterX, pieCenterY, pieRadius, pie.startAngle, pie.endAngle);
-  ctx.lineTo(pieCenterX, pieCenterY);
-  ctx.closePath();
-  ctx.fillStyle = 'white';
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(pieCenterX + 20, pieCenterY + 20, pieRadius, pie.startAngle, pie.endAngle);
-  ctx.lineTo(pieCenterX, pieCenterY);
-  ctx.closePath();
-  ctx.fillStyle = pie.color;
-  ctx.fill();
 }
 
 // highlighting point

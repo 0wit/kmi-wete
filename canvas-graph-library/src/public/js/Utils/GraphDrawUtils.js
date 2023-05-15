@@ -4,18 +4,14 @@ import {Column} from '../Objects/Column.js';
 
 // drawing the pie graph type
 
-const pieCenterX = 960;
-const pieCenterY = 400;
-const pieRadius = 300;
-
-export function drawPieGraph(ctx, valuesPies, colors) {
+export function drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pieRadius) {
     let startAngle = 0;
     let endAngle;
     let pies = [];
   
     for (let i = 0; i < valuesPies.length; i++) {
-      const pie = new Pie(i, startAngle, endAngle, colors[i]);
       endAngle = startAngle + valuesPies[i] * (Math.PI * 2);
+      const pie = new Pie(i, startAngle, endAngle, colors[i]);
   
       ctx.beginPath();
       ctx.moveTo(pieCenterX, pieCenterY);
