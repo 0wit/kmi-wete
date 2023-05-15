@@ -56,14 +56,17 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
 
 export function drawPointGraph(ctx, valuesSegment, pointRadius, colors) {
 
-    let xAxisSegment = 1820/(valuesSegment.length + 1);
-    let yAxisSegment = 0;
+    let xAxisSegment = 1710/valuesSegment.length;
+    let xPoint;
+    let yPoint;
     let points = [];
   
     for (let i = 0; i < valuesSegment.length; i++) {
-      yAxisSegment = 725 - (650 * valuesSegment[i]);
-      const point = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment, false);
-  
+
+      xPoint = 125 + i * xAxisSegment;
+      yPoint = 725 - (650 * valuesSegment[i]);
+
+      const point = new Point(i, xPoint, yPoint, false);  
       ctx.beginPath();
       ctx.arc(point.x, point.y, pointRadius, 0, 2 * Math.PI);
       ctx.fillStyle = colors[i];
@@ -77,35 +80,37 @@ export function drawPointGraph(ctx, valuesSegment, pointRadius, colors) {
 
 // drawing the line graph type
 
-export function drawLineGraph(ctx, valuesSegment, pointRadius) {
+export function drawLineGraph(ctx, valuesSegment, pointRadius, colors) {
 
-    let xAxisSegment = 1820/(valuesSegment.length + 1);
-    let yAxisSegment = 725 - (650 * valuesSegment[0]);
+    let xAxisSegment = 1710/valuesSegment.length;
+    let yPoint;
+    let yPointNext;
     let points = [];
-
-    ctx.beginPath();
-    ctx.arc(xAxisSegment, yAxisSegment, 3, 0, 2 * Math.PI);
-    ctx.fill();
   
-    const point = new Point(0, xAxisSegment, yAxisSegment);
-    points[0] = point;
-  
-    for (let i = 1; i < valuesSegment.length; i++) {
-  
-      yAxisSegment = 725 - (650 * valuesSegment[i]);
-      const currentPoint = new Point(i, xAxisSegment + i * xAxisSegment, yAxisSegment);
-      const previousPoint = points[i-1];
+    for (let i = 0; i < valuesSegment.length - 1; i++) {
+      yPoint = 725 - (650 * valuesSegment[i]);
+      yPointNext = 725 - (650 * valuesSegment[i + 1]); 
+      const currentPoint = new Point(i, 125 + i * xAxisSegment, yPoint, false);
+      const nextPoint = new Point(i+1, 125 + (i + 1) * xAxisSegment, yPointNext, false);
   
       ctx.beginPath();
+      ctx.fillStyle = colors[i];
       ctx.arc(currentPoint.x, currentPoint.y, pointRadius, 0, 2 * Math.PI);
       ctx.fill();
   
-      ctx.moveTo(previousPoint.x, previousPoint.y);
+      ctx.moveTo(nextPoint.x, nextPoint.y);
       ctx.lineTo(currentPoint.x, currentPoint.y);
       ctx.stroke();
   
       points[i] = currentPoint;
     }
+
+    const lastIndex = valuesSegment.length - 1;
+    const lastPoint = new Point(lastIndex, 125 + lastIndex * xAxisSegment, 725 - (650 * valuesSegment[lastIndex]), false);
+    ctx.beginPath();
+    ctx.arc(lastPoint.x, lastPoint.y, pointRadius, 0, 2 * Math.PI);
+    ctx.fillStyle = colors[colors.length - 1];
+    ctx.fill();
 
     return points;
   }
