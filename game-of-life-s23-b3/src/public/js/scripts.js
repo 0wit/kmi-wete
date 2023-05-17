@@ -18,6 +18,21 @@ class Cell {
   }
 }
 
+// create a promise for a worker
+function createWorkerPromise(worker, arrays) {
+  return new Promise((resolve, reject) => {
+
+    worker.onmessage = (event) => {
+      resolve(event.data);
+    };
+
+    worker.onerror = (error) => {
+      reject(error);
+    };
+
+    worker.postMessage(arrays);
+  });
+}
 
 // init function that sets the cells based on the desired height and width
 function init() {
@@ -37,10 +52,34 @@ function init() {
 
 // buttons' functions
 function start() {
+
   liveWorker = new Worker('live_worker.js');
+  deadWorker = new Worker('dead_worker.js');
+
+  // const liveWorkerPromise = createWorkerPromise(liveWorker, aliveCells);
+  // const deadWorkerPromise = createWorkerPromise(deadWorker, cells, aliveCells);
+
+  // Promise.all([liveWorkerPromise, deadWorkerPromise])
+  // .then((results) => {
+  //   console.log('Workers finished:', results);
+  // })
+  // .catch((error) => {
+  //   console.error('Error in workers:', error);
+  // });
+
   liveWorker.postMessage(aliveCells);
   liveWorker.onmessage = function(event) {
     liveResult = event.data;
+  }
+
+const workerData = {
+  cells: cells,
+  aliveCells: aliveCells
+};
+
+  deadWorker.postMessage(workerData);
+  deadWorker.onmessage = function(event) {
+    deadResult = event.data;
   }
 }
 
@@ -73,6 +112,7 @@ function removeAliveCell(cell) {
 
 // manually change state of a specific cell (by click of a mouse)
 function changeCellStateByClick(canvas, e) {  
+
   const rect = canvas.getBoundingClientRect();
   let x = Math.floor((e.clientX - rect.left) / gameScale) * gameScale;
   let y = Math.floor((e.clientY - rect.top) / gameScale) * gameScale;
