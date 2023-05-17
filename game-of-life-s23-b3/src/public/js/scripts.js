@@ -1,7 +1,5 @@
 let liveWorker;
 let deadWorker;
-let liveResult;
-let deadResult;
 let cells = [];
 let aliveCells = [];
 let ctx;
@@ -48,6 +46,35 @@ function init() {
   ctx = canvas.getContext("2d");
 }
 
+function updateCells(newAliveCells) {
+  const deadCells = aliveCells.filter((element) => !newAliveCells.includes(element));
+  const bornCells = newAliveCells.filter((element) => !aliveCells.includes(element));
+  let k;
+  let l;
+
+  for (let i = 0; i < deadCells.length; i++) {
+    const x = deadCells[i].x;
+    const y = deadCells[i].y;
+    k = Math.ceil(x * gameScale);
+    l = Math.ceil(y * gameScale);
+    cells[x][y].state = cells[x][y].state = !cells[x][y].state;
+    ctx.fillStyle = "white";
+    ctx.fillRect(k, l, 1 * gameScale, 1 * gameScale);
+  }
+
+  for (let i = 0; i < bornCells.length; i++) {
+    const x = bornCells[i].x;
+    const y = bornCells[i].y;
+    k = Math.ceil(x * gameScale);
+    l = Math.ceil(y * gameScale);
+    cells[x][y].state = cells[x][y].state = !cells[x][y].state;
+    ctx.fillStyle = "black";
+    ctx.fillRect(k, l, 1 * gameScale, 1 * gameScale);
+  }
+
+  aliveCells = newAliveCells;
+}
+
 // buttons' functions
 function start() {
   liveWorker = new Worker("live_worker.js");
@@ -64,9 +91,13 @@ function start() {
   //   console.error('Error in workers:', error);
   // });
 
+  let liveResult = [];
+  let deadResult = [];
+
   liveWorker.postMessage(aliveCells);
   liveWorker.onmessage = function (event) {
     liveResult = event.data;
+    console.log(liveResult);
   };
 
   const workerData = {
@@ -77,7 +108,12 @@ function start() {
   deadWorker.postMessage(workerData);
   deadWorker.onmessage = function (event) {
     deadResult = event.data;
+    console.log(deadResult);
   };
+
+  const resultArray = liveResult.concat(deadResult);
+
+  updateCells(resultArray);
 }
 
 function stop() {
