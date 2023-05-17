@@ -14,6 +14,8 @@ class Cell {
   }
 }
 
+
+// init function that sets the cells based on the desired height and width
 function init() {
 
   for (let i = 0; i < (height/gameScale); i++)
@@ -25,13 +27,18 @@ function init() {
     }
   }
   canvas = document.getElementById('canvas');
-  canvas.addEventListener("mousedown", function(e){changeCellStateByClick(canvas, e)});
+  canvas.addEventListener("click", function(e){changeCellStateByClick(canvas, e)});
   ctx = canvas.getContext('2d');
 }
 
+// buttons' functions
 function start() {
   const worker = new Worker('live_worker.js');
   worker.postMessage(aliveCells);
+  worker.onmessage = function(event) {
+    const result = event.data;
+    console.log(result);
+  }
 }
 
 function stop() {
@@ -49,6 +56,8 @@ function reset() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+
+// cell has died, remove it from array
 function removeAliveCell(cell) {
   for (let i = 0; i < aliveCells.length; i++) {
     const aliveCell = aliveCells[i];
@@ -59,6 +68,7 @@ function removeAliveCell(cell) {
   }
 }
 
+// manually change state of a specific cell (by click of a mouse)
 function changeCellStateByClick(canvas, e) {  
   const rect = canvas.getBoundingClientRect();
   let x = Math.floor((e.clientX - rect.left) / gameScale) * gameScale;

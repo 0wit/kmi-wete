@@ -1,12 +1,8 @@
+// this worker counts only live cells, it's more effective than going through the whole array and checking each cell
+
 self.onmessage = function(event) {
 
   const aliveCells = event.data;  
-  const returnCells = step(aliveCells);
-  self.postMessage(returnCells);
-};
-
-function step(aliveCells) {
-
   newAliveCells = [];
   
   for (let i = 0; i < aliveCells.length; i++) {
@@ -35,6 +31,6 @@ function step(aliveCells) {
       newAliveCells.push(aliveCells[i]);
     }
   }
-
-  return newAliveCells;
-}
+  
+  self.postMessage(newAliveCells);
+};
