@@ -16,21 +16,6 @@ class Cell {
   }
 }
 
-// create a promise for a worker
-function createWorkerPromise(worker, arrays) {
-  return new Promise((resolve, reject) => {
-    worker.onmessage = (event) => {
-      resolve(event.data);
-    };
-
-    worker.onerror = (error) => {
-      reject(error);
-    };
-
-    worker.postMessage(arrays);
-  });
-}
-
 // init function that sets the cells based on the desired height and width
 function init() {
   for (let i = 0; i < height / gameScale; i++) {
@@ -47,8 +32,12 @@ function init() {
 }
 
 function updateCells(newAliveCells) {
-  const deadCells = aliveCells.filter((element) => !newAliveCells.includes(element));
-  const bornCells = newAliveCells.filter((element) => !aliveCells.includes(element));
+  const deadCells = aliveCells.filter(
+    (element) => !newAliveCells.includes(element)
+  );
+  const bornCells = newAliveCells.filter(
+    (element) => !aliveCells.includes(element)
+  );
   let k;
   let l;
 
@@ -77,43 +66,48 @@ function updateCells(newAliveCells) {
 
 // buttons' functions
 function start() {
-  liveWorker = new Worker("live_worker.js");
-  deadWorker = new Worker("dead_worker.js");
-
-  // const liveWorkerPromise = createWorkerPromise(liveWorker, aliveCells);
-  // const deadWorkerPromise = createWorkerPromise(deadWorker, cells, aliveCells);
-
-  // Promise.all([liveWorkerPromise, deadWorkerPromise])
-  // .then((results) => {
-  //   console.log('Workers finished:', results);
-  // })
-  // .catch((error) => {
-  //   console.error('Error in workers:', error);
-  // });
 
   let liveResult = [];
   let deadResult = [];
-
+  const promises = [];
+  
+  liveWorker = new Worker("live_worker.js");
+  deadWorker = new Worker("dead_worker.js");
+  
+  const liveWorkerPromise = new Promise((resolve) => {
+    liveWorker.onmessage = function (event) {
+      liveResult = event.data;
+      resolve();
+    };
+  });
+  
+  const deadWorkerPromise = new Promise((resolve) => {
+    deadWorker.onmessage = function (event) {
+      deadResult = event.data;
+      resolve();
+    };
+  });
+  
+  promises.push(liveWorkerPromise);
+  promises.push(deadWorkerPromise);
+  
   liveWorker.postMessage(aliveCells);
-  liveWorker.onmessage = function (event) {
-    liveResult = event.data;
-    console.log(liveResult);
-  };
-
+  
   const workerData = {
     cells: cells,
     aliveCells: aliveCells,
   };
-
+  
   deadWorker.postMessage(workerData);
-  deadWorker.onmessage = function (event) {
-    deadResult = event.data;
-    console.log(deadResult);
-  };
-
-  const resultArray = liveResult.concat(deadResult);
-
-  updateCells(resultArray);
+  
+  Promise.all(promises)
+    .then(() => {
+      const resultArray = liveResult.concat(deadResult);
+      updateCells(resultArray);
+    })
+    .catch((error) => {
+      console.error('Error in workers:', error);
+    });
 }
 
 function stop() {
