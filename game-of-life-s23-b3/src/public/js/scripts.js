@@ -1,5 +1,9 @@
 let liveWorker;
 let deadWorker;
+let liveResult = [];
+let deadResult = [];
+const promises = [];
+let isRunning = false;
 let cells = [];
 let aliveCells = [];
 let ctx;
@@ -64,13 +68,8 @@ function updateCells(newAliveCells) {
   aliveCells = newAliveCells;
 }
 
-// buttons' functions
-function start() {
+function initializeWorkers() {
 
-  let liveResult = [];
-  let deadResult = [];
-  const promises = [];
-  
   liveWorker = new Worker("live_worker.js");
   deadWorker = new Worker("dead_worker.js");
   
@@ -90,6 +89,43 @@ function start() {
   
   promises.push(liveWorkerPromise);
   promises.push(deadWorkerPromise);
+}
+
+function step() {
+
+  const workerData = {
+    cells: cells,
+    aliveCells: aliveCells,
+  };
+  
+  liveWorker.postMessage(aliveCells);
+  deadWorker.postMessage(workerData);
+
+  Promise.all(promises)
+    .then(() => {
+      const resultArray = liveResult.concat(deadResult);
+      updateCells(resultArray);
+
+      if (isRunning) {
+        setTimeout(step, 500);
+      }
+      
+      else {
+        liveResult = [];
+        deadResult = [];
+        promises.length = 0;
+      }
+    })
+}
+
+// buttons' functions
+function start() {
+
+  if (!isRunning) {
+    isRunning = true;
+    initializeWorkers();
+    step();
+  }
   
   liveWorker.postMessage(aliveCells);
   
@@ -111,17 +147,12 @@ function start() {
 }
 
 function stop() {
-  if (liveWorker) {
-    liveWorker.terminate();
-    liveWorker = undefined;
-  }
+  isRunning = false;
 }
 
 function reset() {
-  if (liveWorker) {
-    liveWorker.terminate();
-    liveWorker = undefined;
-  }
+  isRunning = false;
+  aliveCells = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
