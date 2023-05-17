@@ -15,6 +15,21 @@ class Cell {
   }
 }
 
+function init() {
+
+  for (let i = 0; i < (height/gameScale); i++)
+  {
+    cells[i] = [];
+    for (let j = 0; j < (width/gameScale); j++)
+    {
+      cells[i][j] = new Cell(i, j, gameScale, false);
+    }
+  }
+  canvas = document.getElementById('canvas');
+  canvas.addEventListener("mousedown", function(e){changeCellState(canvas, e)});
+  ctx = canvas.getContext('2d');
+}
+
 function start() {
   if (typeof Worker !== "undefined") {
     if (typeof worker == "undefined") {
@@ -30,13 +45,18 @@ function start() {
 }
 
 function stop() {
-  worker.terminate();
-  worker = undefined;
+  if (worker) {
+    worker.terminate();
+    worker = undefined;
+  }
 }
 
 function reset() {
-  worker.terminate();
-  worker = undefined;
+  if (worker) {
+    worker.terminate();
+    worker = undefined;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function changeCellState(canvas, e) {  
@@ -55,21 +75,6 @@ function changeCellState(canvas, e) {
   }
 
   ctx.fillRect(x, y, 1 * gameScale, 1 * gameScale);  
-}
-
-function init() {
-
-  for (let i = 0; i < (height/gameScale); i++)
-  {
-    cells[i] = [];
-    for (let j = 0; j < (width/gameScale); j++)
-    {
-      cells[i][j] = new Cell(i, j, gameScale, false);
-    }
-  }
-  canvas = document.getElementById('canvas');
-  canvas.addEventListener("mousedown", function(e){changeCellState(canvas, e)});
-  ctx = canvas.getContext('2d');
 }
 
 function step() {
