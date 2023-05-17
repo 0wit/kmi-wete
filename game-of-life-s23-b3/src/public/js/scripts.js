@@ -1,3 +1,7 @@
+let liveWorker;
+let deadWorker;
+let liveResult;
+let deadResult;
 let cells = [];
 let aliveCells = [];
 let ctx;
@@ -33,25 +37,24 @@ function init() {
 
 // buttons' functions
 function start() {
-  const worker = new Worker('live_worker.js');
-  worker.postMessage(aliveCells);
-  worker.onmessage = function(event) {
-    const result = event.data;
-    console.log(result);
+  liveWorker = new Worker('live_worker.js');
+  liveWorker.postMessage(aliveCells);
+  liveWorker.onmessage = function(event) {
+    liveResult = event.data;
   }
 }
 
 function stop() {
-  if (worker) {
-    worker.terminate();
-    worker = undefined;
+  if (liveWorker) {
+    liveWorker.terminate();
+    liveWorker = undefined;
   }
 }
 
 function reset() {
-  if (worker) {
-    worker.terminate();
-    worker = undefined;
+  if (liveWorker) {
+    liveWorker.terminate();
+    liveWorker = undefined;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }

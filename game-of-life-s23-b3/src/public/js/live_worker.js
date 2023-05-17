@@ -1,18 +1,18 @@
-// this worker counts only live cells, it's more effective than going through the whole array and checking each cell
+// this worker deals with and county only live cells, it's more effective than going through the whole array and checking each cell
 
 self.onmessage = function(event) {
 
   const aliveCells = event.data;  
-  newAliveCells = [];
+  let newAliveCells = [];
   
   for (let i = 0; i < aliveCells.length; i++) {
 
     aliveCellsAround = 0;
     for (let j = 0; j < aliveCells.length; j++) {
       if (j != i) {
-        x = aliveCells[i].x;
-        y = aliveCells[i].y;
-        currentCell = aliveCells[j];
+        const x = aliveCells[i].x;
+        const y = aliveCells[i].y;
+        const currentCell = aliveCells[j];
 
         if ((x == (currentCell.x - 1) && y == currentCell.y) ||
             (x == (currentCell.x - 1) && y == currentCell.y - 1) ||
