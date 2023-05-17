@@ -1,6 +1,5 @@
-let worker;
-let stopped = true;
 let cells = [];
+let aliveCells = [];
 let ctx;
 const gameScale = 4
 const height = 800;
@@ -26,22 +25,13 @@ function init() {
     }
   }
   canvas = document.getElementById('canvas');
-  canvas.addEventListener("mousedown", function(e){changeCellState(canvas, e)});
+  canvas.addEventListener("mousedown", function(e){changeCellStateByClick(canvas, e)});
   ctx = canvas.getContext('2d');
 }
 
 function start() {
-  if (typeof Worker !== "undefined") {
-    if (typeof worker == "undefined") {
-      worker = new Worker("demo_workers.js");
-    }
-    worker.onmessage = function (event) {
-      document.getElementById("result").innerHTML = event.data;
-    };
-  } else {
-    document.getElementById("result").innerHTML =
-      "Sorry! No Web Worker support.";
-  }
+  const worker = new Worker('live_worker.js');
+  worker.postMessage(aliveCells);
 }
 
 function stop() {
@@ -59,7 +49,17 @@ function reset() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function changeCellState(canvas, e) {  
+function removeAliveCell(cell) {
+  for (let i = 0; i < aliveCells.length; i++) {
+    const aliveCell = aliveCells[i];
+    if (aliveCell === cell) {
+      aliveCells.splice(i, 1);
+      break;
+    }
+  }
+}
+
+function changeCellStateByClick(canvas, e) {  
   const rect = canvas.getBoundingClientRect();
   let x = Math.floor((e.clientX - rect.left) / gameScale) * gameScale;
   let y = Math.floor((e.clientY - rect.top) / gameScale) * gameScale;
@@ -68,49 +68,18 @@ function changeCellState(canvas, e) {
   const j = Math.floor(y / gameScale);
   
   cells[i][j].state = !cells[i][j].state;
-  ctx.fillStyle = "black";
 
-  if (!cells[i][j].state) {
+  if (cells[i][j].state) {
+    ctx.fillStyle = "black";
+    aliveCells.push(cells[i][j]);
+  }
+
+  else {
     ctx.fillStyle = "white";
+    removeAliveCell(cells[i][j]);
   }
 
   ctx.fillRect(x, y, 1 * gameScale, 1 * gameScale);  
-}
-
-function step() {
-
-  for (let i = 0; i < height/gameScale; i++)
-  {
-    for (let j = 0; j < width/gameScale; j++)
-    {  
-      aliveNeighbours = 0;
-
-      if (cell[i-1, j].state){
-        aliveNeighbours += 1;
-      }
-      if (cell[i+1, j].state){
-        aliveNeighbours += 1;
-      }
-      if (cell[i, j-1].state){
-        aliveNeighbours += 1;
-      }
-      if (cell[i, j+1].state){
-        aliveNeighbours += 1;
-      }
-      
-      if (aliveNeighbours < 2  || aliveNeighbours > 3) {
-        ctx.fillStyle = "white";
-        cells[i][j].state = false;
-      }
-
-      if (!cells[i][j].state && aliveNeighbours == 3) {
-        ctx.fillStyle = "black";
-        cells[i][j].state = true;
-      }
-      
-      ctx.fillRect(i, j, 1, 1);      
-    }
-  }
 }
 
 init();
