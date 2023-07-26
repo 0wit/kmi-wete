@@ -9,6 +9,12 @@ let ctx;
 let colors = [];
 let graphType = "point";
 
+// graph description variables
+let graphName;
+let graphLegend;
+let graphOrigin;
+let savedValues;
+
 // pie variables
 let pies = [];
 let valuesPies = [];
@@ -44,6 +50,7 @@ export function init() {
 
 // setting up variables
 function processValues(values) {
+  savedValues = values;
   // forcing data type to number
   const total = values.map(Number).reduce((a, b) => a + b, 0);
   const length = values.length;
@@ -67,25 +74,31 @@ function processValues(values) {
   }
 }
 
+// function used to draw and redraw graph elements
+function drawGraphElements() {
+  // legend has to be drawn first, because graph is redrawn
+  if (graphLegend) {
+    elementUtils.drawGraphLegend(ctx, colors, ...savedValues);
+  }
+
+  if (graphOrigin) {
+    elementUtils.drawGraphOrigin(ctx);
+  }
+
+  if (graphName) {
+    elementUtils.drawGraphName(ctx, "First quater statistics");
+  }
+}
+
 // function used to draw graph of selected type
 
 export function drawGraph(legend, origin, name, selectedGraph, ...values) {
   processValues(values);
-
-  // legend has to be drawn first, because graph is redrawn
-  if (legend) {
-    elementUtils.drawGraphLegend(ctx, colors, ...values);
-  }
-
-  if (origin) {
-    elementUtils.drawGraphOrigin(ctx);
-  }
-
-  if (name) {
-    elementUtils.drawGraphName(ctx, "First quater statistics");
-  }
-
+  graphLegend = legend;
+  graphOrigin = origin;
+  graphName = name;
   graphType = selectedGraph;
+  drawGraphElements();
 
   switch (graphType) {
     case "pie":
@@ -161,6 +174,7 @@ function checkCollisions(x, y) {
             pieCenterY,
             pieRadius
           );
+          drawGraphElements();
         }
       }
       break;
@@ -178,6 +192,7 @@ function checkCollisions(x, y) {
             colors,
             columnWidth
           );
+          drawGraphElements();
         }
       }
       break;
@@ -197,6 +212,7 @@ function checkCollisions(x, y) {
             pointRadius,
             colors
           );
+          drawGraphElements();
         }
       }
       break;
