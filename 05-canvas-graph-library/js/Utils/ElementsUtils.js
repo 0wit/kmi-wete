@@ -29,11 +29,12 @@ export function drawGraphLegend(ctx, colors, ...valueNames) {
   for (let i = 0; i < valueNames.length; i++) {
 
     // when number of objects is too high, store current canvas, make new one, taller and then redraw everything
-    if (i % 15 == 0 && i != 0)
+    console.log(valueNames[i], i, ((i + 1) % 16 == 0));
+    if (i % 15 == 0)
     {
+      canvasRedrawUtils.storeCurrentCanvas(ctx);
       currentLegendWidth = 100;
       currentLegendHeight = currentLegendHeight + 50;
-      canvasRedrawUtils.storeCurrentCanvas(ctx);
       ctx.canvas.height += 50;
       canvasRedrawUtils.redrawPreviousCanvas(ctx);
     }
