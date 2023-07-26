@@ -203,7 +203,7 @@ function checkCollisions(x, y) {
           highlightUtils.highlightPoint(ctx, points[lineIndex], pointRadius);
         } else {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-          points = graphUtils.drawPointGraph(
+          points = graphUtils.drawLineGraph(
             ctx,
             valuesSegment,
             pointRadius,
