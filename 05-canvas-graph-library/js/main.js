@@ -154,7 +154,6 @@ function checkCollisions(x, y) {
         pieRadius
       );
       if (pieIndex != "none") {
-        console.log(pieIndex);
         pies[pieIndex].highlighted = !pies[pieIndex].highlighted;
         if (pies[pieIndex].highlighted) {
           highlightUtils.highlightPie(
@@ -199,7 +198,6 @@ function checkCollisions(x, y) {
     case "line":
     case "point":
       const pointIndex = collisionUtils.checkPoints(x, y, points, pointRadius);
-      console.log(pointIndex);
       if (pointIndex != "none") {
         points[pointIndex].highlighted = !points[pointIndex].highlighted;
         if (points[pointIndex].highlighted) {
