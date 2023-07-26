@@ -26,10 +26,10 @@ export function drawGraphLegend(ctx, colors, ...valueNames) {
   let currentLegendWidth = 100;
   let currentLegendHeight = 760;
 
-  for (let i = 1; i < valueNames.length + 1; i++) {
+  for (let i = 0; i < valueNames.length; i++) {
 
     // when number of objects is too high, store current canvas, make new one, taller and then redraw everything
-    if (i % 15 == 0)
+    if (i + 1 % 16 == 0)
     {
       canvasRedrawUtils.storeCurrentCanvas(ctx);
       currentLegendWidth = 100;
