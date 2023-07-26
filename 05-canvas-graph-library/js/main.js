@@ -196,6 +196,23 @@ function checkCollisions(x, y) {
       }
       break;
     case "line":
+      const lineIndex = collisionUtils.checkPoints(x, y, points, pointRadius);
+      if (lineIndex != "none") {
+        points[lineIndex].highlighted = !points[lineIndex].highlighted;
+        if (points[lineIndex].highlighted) {
+          highlightUtils.highlightPoint(ctx, points[lineIndex], pointRadius);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          points = graphUtils.drawPointGraph(
+            ctx,
+            valuesSegment,
+            pointRadius,
+            colors
+          );
+          drawGraphElements();
+        }
+      }
+      break;
     case "point":
       const pointIndex = collisionUtils.checkPoints(x, y, points, pointRadius);
       if (pointIndex != "none") {
