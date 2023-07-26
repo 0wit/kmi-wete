@@ -1,6 +1,6 @@
 import * as canvasRedrawUtils from './CanvasRedrawUtils.js';
 
-// creates graph origin (not used in pie graph)
+// creates graph origin (do not use in pie graph)
 
 export function drawGraphOrigin(ctx) {
     ctx.beginPath();
