@@ -8,7 +8,7 @@ import * as collisionUtils from './Utils/CollisionUtils.js';
 // general variables
 let ctx;
 let colors = [];
-let currentGraph = 'point';
+let graphType = 'point';
 
 // pie variables
 let pies = [];
@@ -29,9 +29,7 @@ const pointRadius = 4;
 
 
 // starting function
-
-window.addEventListener('load', init, false);
-function init() {
+export function init() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
 
@@ -44,14 +42,9 @@ function init() {
     const canvasY = Math.round((evt.clientY - cRect.top) * scaleY);
     checkCollisions(canvasX, canvasY);
   });
-
-  const button = document.querySelector("button");
-  //button.addEventListener('click', testingFunction('24', '7', '16' , '11', '24', '7', '16', '24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16', '24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16','24', '7', '16' , '11', '24', '7', '16'), false);
-  button.addEventListener('click', , false);
 }
 
 // setting up variables
-
 function processValues(values) {
 
   // forcing data type to number
@@ -77,19 +70,24 @@ function processValues(values) {
   }
 }
 
-// function currently used for testing
+// function used to draw graph of a certain type
 
-function drawGraphicsElements(...values) {
-  // legend has to be drawn first, because graph is redrawn
-  elementUtils.drawGraphLegend(ctx, colors, ...values);
-  elementUtils.drawGraphOrigin(ctx);
-  elementUtils.drawGraphName(ctx, 'First quater statistics')  
-}
-
-function testingFunction(...values) {
+export function drawGraph(legend, origin, name, graphType, ...values) {
 
   processValues(values);
-  drawGraphicsElements(...values)
+
+  // legend has to be drawn first, because graph is redrawn
+  if (legend) {
+    elementUtils.drawGraphLegend(ctx, colors, ...values);
+  }
+
+  if (origin) {
+    elementUtils.drawGraphOrigin(ctx);
+  }
+
+  if (name) {
+    elementUtils.drawGraphName(ctx, 'First quater statistics')  
+  }
 
   //pies = graphUtils.drawPieGraph(ctx, valuesPies, colors, pieCenterX, pieCenterY, pieRadius);
   //columns = graphUtils.drawColumnGraph(ctx, valuesSegment, colors, columnWidth);
@@ -100,7 +98,7 @@ function testingFunction(...values) {
 // check where user has clicked
 
 function checkCollisions(x, y) {
-  switch(currentGraph) {
+  switch(graphType) {
       case 'pie':
         const pieIndex = collisionUtils.checkPies(x, y, pies, pieCenterX, pieCenterY, pieRadius);
         if (pieIndex != "none") {
