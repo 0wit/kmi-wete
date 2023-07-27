@@ -21,4 +21,5 @@ Cells that are alive are saved with their location and workers only check them a
 This method is (I think) better in all cases then going through the whole canvas.
 
 Videos demonstrating the functionality:
-
+https://github.com/0wit/kmi-wete/assets/61089322/505ad79b-44d4-4c0c-bfb3-c5a04135b656
+https://github.com/0wit/kmi-wete/assets/61089322/f05cd2d7-3737-4ff5-b55a-5e8f85ffa2c2
