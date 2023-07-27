@@ -1,5 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-It is made as a React app for exercise.
+It is made as a React app as an exercise.
 
 In the project directory, run:
 
@@ -9,11 +9,6 @@ The npm install installs all modules that are listed on package.json file and th
 ### `npm start`
 
 Runs the app. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-gif showing responsivity:
+video showing responsivity:
 
-
-
-
-
-
-![responsivity](https://github.com/0wit/kmi-wete/assets/61089322/e46bec98-4343-4bbc-9e1f-cb92c6cfcab2)
+https://github.com/0wit/kmi-wete/assets/61089322/1dba76de-36aa-4635-8495-f6dd87b734f2
