@@ -11,9 +11,9 @@ let graphType = "point";
 
 // graph description variables
 let graphName;
-let graphNameVisibile;
-let graphLegendVisible;
-let graphOriginVisible;
+let isGraphNameVisibile;
+let isGraphLegendVisible;
+let isGraphOriginVisible;
 let savedValues;
 
 // pie variables
@@ -78,15 +78,15 @@ function processValues(values) {
 // function used to draw and redraw graph elements
 function drawGraphElements() {
   // legend has to be drawn first, because graph is redrawn
-  if (graphLegendVisible) {
+  if (isGraphLegendVisible) {
     elementUtils.drawGraphLegend(ctx, colors, ...savedValues);
   }
 
-  if (graphOriginVisible) {
+  if (isGraphOriginVisible) {
     elementUtils.drawGraphOrigin(ctx);
   }
 
-  if (graphNameVisibile) {
+  if (isGraphNameVisibile) {
     elementUtils.drawGraphName(ctx, graphName);
   }
 }
@@ -95,12 +95,16 @@ function drawGraphElements() {
 
 export function drawGraph(legend, origin, name, selectedGraph, values, nameOfGraph) {
   processValues(values);
-  graphLegendVisible = legend;
-  graphOriginVisible = origin;
-  graphNameVisibile = name;
+  
+  isGraphLegendVisible = legend;
+  isGraphOriginVisible = origin;
+  isGraphNameVisibile = name;
   graphType = selectedGraph;
   graphName = nameOfGraph;
-  elementUtils.prepareGraphLegend(ctx, colors, ...savedValues);
+
+  if (isGraphLegendVisible) {
+    elementUtils.prepareGraphLegend(ctx, colors, ...savedValues);
+  }
   drawGraphElements();
 
   switch (graphType) {
