@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR);
 include('User.php');
 session_start();
 
