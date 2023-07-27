@@ -11,8 +11,9 @@ let graphType = "point";
 
 // graph description variables
 let graphName;
-let graphLegend;
-let graphOrigin;
+let graphNameVisibile;
+let graphLegendVisible;
+let graphOriginVisible;
 let savedValues;
 
 // pie variables
@@ -77,27 +78,28 @@ function processValues(values) {
 // function used to draw and redraw graph elements
 function drawGraphElements() {
   // legend has to be drawn first, because graph is redrawn
-  if (graphLegend) {
+  if (graphLegendVisible) {
     elementUtils.drawGraphLegend(ctx, colors, ...savedValues);
   }
 
-  if (graphOrigin) {
+  if (graphOriginVisible) {
     elementUtils.drawGraphOrigin(ctx);
   }
 
-  if (graphName) {
-    elementUtils.drawGraphName(ctx, "First quater statistics");
+  if (graphNameVisibile) {
+    elementUtils.drawGraphName(ctx, graphName);
   }
 }
 
 // function used to draw graph of selected type
 
-export function drawGraph(legend, origin, name, selectedGraph, ...values) {
+export function drawGraph(legend, origin, name, selectedGraph, values, nameOfGraph) {
   processValues(values);
-  graphLegend = legend;
-  graphOrigin = origin;
-  graphName = name;
+  graphLegendVisible = legend;
+  graphOriginVisible = origin;
+  graphNameVisibile = name;
   graphType = selectedGraph;
+  graphName = nameOfGraph;
   elementUtils.prepareGraphLegend(ctx, colors, ...savedValues);
   drawGraphElements();
 
