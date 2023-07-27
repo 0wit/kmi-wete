@@ -8,14 +8,14 @@ $out = "User was added.";
 $found = false;
 
 if (empty($id) || !is_numeric($id)) {
-    $out = "There was a mistake, no user was added.";
+    $out = "There was a mistake, id has to be numeric and not empty.";
     $found = true;
 }
 
 else {
     foreach ($_SESSION['users'] as $key => $value) {
         if ($id == $value->id) {
-            $out = "There was a mistake, no user was added.";
+            $out = "There was a mistake, user has to have unique id.";
             $found = true;
         }
     }
