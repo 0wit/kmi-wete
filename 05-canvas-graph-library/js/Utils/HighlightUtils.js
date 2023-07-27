@@ -1,4 +1,5 @@
 // highlighting a column after user input
+// highlights it with black shadow
 
 export function highlightColumn(ctx, column) {
     ctx.save();
@@ -10,6 +11,7 @@ export function highlightColumn(ctx, column) {
 }
 
 // highlighting a part of pie graph after user input
+// highlights the part with red color and makes it bigger
 
 export function highlightPie(ctx, pie, pieCenterX, pieCenterY, pieRadius) {
   ctx.save();
@@ -33,7 +35,8 @@ export function highlightPie(ctx, pie, pieCenterX, pieCenterY, pieRadius) {
   ctx.restore();
 }
 
-// highlighting point
+// highlighting point, higlights point red and makes it bigger
+// same for point and line graphs
 
 export function highlightPoint(ctx, point, pointRadius) {
   ctx.beginPath();

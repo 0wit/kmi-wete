@@ -5,4 +5,3 @@ npm install -g live-server
 
 Then run this command in cmd in the folder with index.html with administrator rights:
 live-server
-

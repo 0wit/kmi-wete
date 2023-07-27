@@ -44,7 +44,7 @@ export function drawColumnGraph(ctx, valuesSegment, colors, columnWidth) {
   let height;
 
   for (let i = 0; i < valuesSegment.length; i++) {
-    topLeftCornerX = 125 + i * xAxisSegment;
+    topLeftCornerX = 110 + i * xAxisSegment;
     topLeftCornerY = 725 - 650 * valuesSegment[i];
     height = 650 * valuesSegment[i] - 1;
     ctx.fillStyle = colors[i];
@@ -71,7 +71,7 @@ export function drawPointGraph(ctx, valuesSegment, pointRadius, colors) {
   let points = [];
 
   for (let i = 0; i < valuesSegment.length; i++) {
-    xPoint = 125 + i * xAxisSegment;
+    xPoint = 110 + i * xAxisSegment;
     yPoint = 725 - 650 * valuesSegment[i];
 
     const point = new Point(i, xPoint, yPoint, false);
@@ -97,10 +97,10 @@ export function drawLineGraph(ctx, valuesSegment, pointRadius, colors) {
   for (let i = 0; i < valuesSegment.length - 1; i++) {
     yPoint = 725 - 650 * valuesSegment[i];
     yPointNext = 725 - 650 * valuesSegment[i + 1];
-    const currentPoint = new Point(i, 125 + i * xAxisSegment, yPoint, false);
+    const currentPoint = new Point(i, 110 + i * xAxisSegment, yPoint, false);
     const nextPoint = new Point(
       i + 1,
-      125 + (i + 1) * xAxisSegment,
+      110 + (i + 1) * xAxisSegment,
       yPointNext,
       false
     );
@@ -120,7 +120,7 @@ export function drawLineGraph(ctx, valuesSegment, pointRadius, colors) {
   const lastIndex = valuesSegment.length - 1;
   const lastPoint = new Point(
     lastIndex,
-    125 + lastIndex * xAxisSegment,
+    110 + lastIndex * xAxisSegment,
     725 - 650 * valuesSegment[lastIndex],
     false
   );
