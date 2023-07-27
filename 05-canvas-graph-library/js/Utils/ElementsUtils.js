@@ -21,14 +21,14 @@ export function drawGraphName(ctx, name) {
 
 // graph legend
 
-export function drawGraphLegend(ctx, colors, ...valueNames) {
+export function prepareGraphLegend(ctx, colors, ...valueNames) {
 
   let currentLegendWidth = 100;
   let currentLegendHeight = 760;
 
   for (let i = 0; i < valueNames.length; i++) {
 
-    // when number of objects is too high, store current canvas, make new one, taller and then redraw everything
+    // when number of objects is too high, store current canvas, increase height and redraw
     console.log(valueNames[i], i, ((i + 1) % 16 == 0));
     if (i % 15 == 0)
     {
@@ -37,6 +37,24 @@ export function drawGraphLegend(ctx, colors, ...valueNames) {
       currentLegendHeight = currentLegendHeight + 50;
       ctx.canvas.height += 50;
       canvasRedrawUtils.redrawPreviousCanvas(ctx);
+    }
+  }
+}
+
+
+export function drawGraphLegend(ctx, colors, ...valueNames) {
+
+  let currentLegendWidth = 100;
+  let currentLegendHeight = 760;
+
+  for (let i = 0; i < valueNames.length; i++) {
+
+    // when number of objects is too high, move to next line
+    console.log(valueNames[i], i, ((i + 1) % 16 == 0));
+    if (i % 15 == 0)
+    {
+      currentLegendWidth = 100;
+      currentLegendHeight = currentLegendHeight + 50;
     }
 
     // draw legend object, text + square

@@ -98,6 +98,7 @@ export function drawGraph(legend, origin, name, selectedGraph, ...values) {
   graphOrigin = origin;
   graphName = name;
   graphType = selectedGraph;
+  elementUtils.prepareGraphLegend(ctx, colors, ...savedValues);
   drawGraphElements();
 
   switch (graphType) {
